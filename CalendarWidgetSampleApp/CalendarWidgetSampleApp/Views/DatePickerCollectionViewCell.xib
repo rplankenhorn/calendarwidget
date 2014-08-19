@@ -13,10 +13,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="31" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MRJ-4x-NbQ">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="31" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MRJ-4x-NbQ">
                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                        <color key="textColor" red="0.3411764706" green="0.3803921569" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -26,6 +26,12 @@
                 <nil key="simulatedBottomBarMetrics"/>
             </view>
             <color key="backgroundColor" red="0.92156862745098034" green="0.91764705882352937" blue="0.90588235294117647" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="MRJ-4x-NbQ" secondAttribute="bottom" id="MSM-Zk-bb2"/>
+                <constraint firstItem="MRJ-4x-NbQ" firstAttribute="top" secondItem="aiS-qC-iwf" secondAttribute="top" id="Wif-Ps-vvJ"/>
+                <constraint firstAttribute="trailing" secondItem="MRJ-4x-NbQ" secondAttribute="trailing" id="ggr-2t-BTc"/>
+                <constraint firstItem="MRJ-4x-NbQ" firstAttribute="leading" secondItem="aiS-qC-iwf" secondAttribute="leading" id="rLy-Yw-SGe"/>
+            </constraints>
             <connections>
                 <outlet property="dayLabel" destination="MRJ-4x-NbQ" id="aeC-KH-DcA"/>
             </connections>

@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14782BAF19A4144100FA10B3 /* left_chevron.png in Resources */ = {isa = PBXBuildFile; fileRef = 14782BAD19A4144100FA10B3 /* left_chevron.png */; };
+		14782BB019A4144100FA10B3 /* right_chevron.png in Resources */ = {isa = PBXBuildFile; fileRef = 14782BAE19A4144100FA10B3 /* right_chevron.png */; };
 		14B3809C19A2DA3900BFAEA9 /* CalendarFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B3809B19A2DA3900BFAEA9 /* CalendarFlowLayout.m */; };
+		14FCA8D819A2F0770011B17A /* NSIndexPath+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FCA8D719A2F0770011B17A /* NSIndexPath+Utils.m */; };
+		14FCA8DB19A2F4F90011B17A /* NSDate+Reporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FCA8DA19A2F4F90011B17A /* NSDate+Reporting.m */; };
 		14FE00EF19A17A8500C3FA0F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FE00EE19A17A8500C3FA0F /* main.m */; };
 		14FE00F219A17A8500C3FA0F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FE00F119A17A8500C3FA0F /* AppDelegate.m */; };
 		14FE00F519A17A8500C3FA0F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FE00F419A17A8500C3FA0F /* ViewController.m */; };
@@ -33,8 +37,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		14782BAD19A4144100FA10B3 /* left_chevron.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_chevron.png; sourceTree = "<group>"; };
+		14782BAE19A4144100FA10B3 /* right_chevron.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_chevron.png; sourceTree = "<group>"; };
 		14B3809A19A2DA3900BFAEA9 /* CalendarFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarFlowLayout.h; sourceTree = "<group>"; };
 		14B3809B19A2DA3900BFAEA9 /* CalendarFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarFlowLayout.m; sourceTree = "<group>"; };
+		14FCA8D619A2F0770011B17A /* NSIndexPath+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexPath+Utils.h"; sourceTree = "<group>"; };
+		14FCA8D719A2F0770011B17A /* NSIndexPath+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexPath+Utils.m"; sourceTree = "<group>"; };
+		14FCA8D919A2F4F90011B17A /* NSDate+Reporting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+Reporting.h"; path = "CalendarWidgetSampleApp/Categories/NSDate+Reporting.h"; sourceTree = SOURCE_ROOT; };
+		14FCA8DA19A2F4F90011B17A /* NSDate+Reporting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+Reporting.m"; path = "CalendarWidgetSampleApp/Categories/NSDate+Reporting.m"; sourceTree = SOURCE_ROOT; };
 		14FE00E919A17A8500C3FA0F /* CalendarWidgetSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalendarWidgetSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14FE00ED19A17A8500C3FA0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14FE00EE19A17A8500C3FA0F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -85,6 +95,17 @@
 			path = Layouts;
 			sourceTree = "<group>";
 		};
+		14FCA8D519A2F04E0011B17A /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				14FCA8D919A2F4F90011B17A /* NSDate+Reporting.h */,
+				14FCA8DA19A2F4F90011B17A /* NSDate+Reporting.m */,
+				14FCA8D619A2F0770011B17A /* NSIndexPath+Utils.h */,
+				14FCA8D719A2F0770011B17A /* NSIndexPath+Utils.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
 		14FE00E019A17A8500C3FA0F = {
 			isa = PBXGroup;
 			children = (
@@ -108,13 +129,14 @@
 			children = (
 				14FE00F019A17A8500C3FA0F /* AppDelegate.h */,
 				14FE00F119A17A8500C3FA0F /* AppDelegate.m */,
+				14FCA8D519A2F04E0011B17A /* Categories */,
 				14FE011819A181FB00C3FA0F /* Images */,
 				14FE00F919A17A8500C3FA0F /* Images.xcassets */,
+				14B3809919A2D2DE00BFAEA9 /* Layouts */,
 				14FE00F619A17A8500C3FA0F /* Main.storyboard */,
 				14FE00EC19A17A8500C3FA0F /* Supporting Files */,
 				14FE00F319A17A8500C3FA0F /* ViewController.h */,
 				14FE00F419A17A8500C3FA0F /* ViewController.m */,
-				14B3809919A2D2DE00BFAEA9 /* Layouts */,
 				14FE010F19A17AA000C3FA0F /* Views */,
 			);
 			path = CalendarWidgetSampleApp;
@@ -165,6 +187,8 @@
 			isa = PBXGroup;
 			children = (
 				14FE011919A181FB00C3FA0F /* calendar_top.png */,
+				14782BAD19A4144100FA10B3 /* left_chevron.png */,
+				14782BAE19A4144100FA10B3 /* right_chevron.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -249,7 +273,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14782BAF19A4144100FA10B3 /* left_chevron.png in Resources */,
 				14FE012819A18AAD00C3FA0F /* DatePickerCollectionViewCell.xib in Resources */,
+				14782BB019A4144100FA10B3 /* right_chevron.png in Resources */,
 				14FE011719A17B8200C3FA0F /* DatePickerView.xib in Resources */,
 				14FE00F819A17A8500C3FA0F /* Main.storyboard in Resources */,
 				14FE00FA19A17A8500C3FA0F /* Images.xcassets in Resources */,
@@ -271,9 +297,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14FCA8D819A2F0770011B17A /* NSIndexPath+Utils.m in Sources */,
 				14B3809C19A2DA3900BFAEA9 /* CalendarFlowLayout.m in Sources */,
 				14FE011519A17B6C00C3FA0F /* DatePickerView.m in Sources */,
 				14FE00F519A17A8500C3FA0F /* ViewController.m in Sources */,
+				14FCA8DB19A2F4F90011B17A /* NSDate+Reporting.m in Sources */,
 				14FE011219A17AFA00C3FA0F /* CalendarWidget.m in Sources */,
 				14FE00F219A17A8500C3FA0F /* AppDelegate.m in Sources */,
 				14FE012419A18A1800C3FA0F /* DatePickerCollectionViewCell.m in Sources */,
