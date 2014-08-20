@@ -19,7 +19,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    DatePickerView *datePickerView = [[[NSBundle mainBundle] loadNibNamed:@"DatePickerView" owner:nil options:nil] lastObject];
+//    DatePickerView *datePickerView = [[[NSBundle mainBundle] loadNibNamed:@"DatePickerView" owner:nil options:nil] lastObject];
+    DatePickerView *datePickerView = [[DatePickerView alloc] init];
     [self.view addSubview:datePickerView];
 }
 

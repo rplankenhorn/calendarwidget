@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		14782BAF19A4144100FA10B3 /* left_chevron.png in Resources */ = {isa = PBXBuildFile; fileRef = 14782BAD19A4144100FA10B3 /* left_chevron.png */; };
 		14782BB019A4144100FA10B3 /* right_chevron.png in Resources */ = {isa = PBXBuildFile; fileRef = 14782BAE19A4144100FA10B3 /* right_chevron.png */; };
+		14782BBA19A418EA00FA10B3 /* UIView+AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 14782BB919A418EA00FA10B3 /* UIView+AutoLayout.m */; };
 		14B3809C19A2DA3900BFAEA9 /* CalendarFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B3809B19A2DA3900BFAEA9 /* CalendarFlowLayout.m */; };
 		14FCA8D819A2F0770011B17A /* NSIndexPath+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FCA8D719A2F0770011B17A /* NSIndexPath+Utils.m */; };
 		14FCA8DB19A2F4F90011B17A /* NSDate+Reporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FCA8DA19A2F4F90011B17A /* NSDate+Reporting.m */; };
@@ -20,7 +21,6 @@
 		14FE010619A17A8500C3FA0F /* CalendarWidgetSampleAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FE010519A17A8500C3FA0F /* CalendarWidgetSampleAppTests.m */; };
 		14FE011219A17AFA00C3FA0F /* CalendarWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FE011119A17AFA00C3FA0F /* CalendarWidget.m */; };
 		14FE011519A17B6C00C3FA0F /* DatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FE011419A17B6C00C3FA0F /* DatePickerView.m */; };
-		14FE011719A17B8200C3FA0F /* DatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14FE011619A17B8200C3FA0F /* DatePickerView.xib */; };
 		14FE011A19A181FB00C3FA0F /* calendar_top.png in Resources */ = {isa = PBXBuildFile; fileRef = 14FE011919A181FB00C3FA0F /* calendar_top.png */; };
 		14FE012419A18A1800C3FA0F /* DatePickerCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FE012319A18A1800C3FA0F /* DatePickerCollectionViewCell.m */; };
 		14FE012819A18AAD00C3FA0F /* DatePickerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14FE012719A18AAD00C3FA0F /* DatePickerCollectionViewCell.xib */; };
@@ -39,6 +39,8 @@
 /* Begin PBXFileReference section */
 		14782BAD19A4144100FA10B3 /* left_chevron.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_chevron.png; sourceTree = "<group>"; };
 		14782BAE19A4144100FA10B3 /* right_chevron.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_chevron.png; sourceTree = "<group>"; };
+		14782BB819A418EA00FA10B3 /* UIView+AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AutoLayout.h"; sourceTree = "<group>"; };
+		14782BB919A418EA00FA10B3 /* UIView+AutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AutoLayout.m"; sourceTree = "<group>"; };
 		14B3809A19A2DA3900BFAEA9 /* CalendarFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarFlowLayout.h; sourceTree = "<group>"; };
 		14B3809B19A2DA3900BFAEA9 /* CalendarFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarFlowLayout.m; sourceTree = "<group>"; };
 		14FCA8D619A2F0770011B17A /* NSIndexPath+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexPath+Utils.h"; sourceTree = "<group>"; };
@@ -61,7 +63,6 @@
 		14FE011119A17AFA00C3FA0F /* CalendarWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarWidget.m; sourceTree = "<group>"; };
 		14FE011319A17B6C00C3FA0F /* DatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerView.h; sourceTree = "<group>"; };
 		14FE011419A17B6C00C3FA0F /* DatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerView.m; sourceTree = "<group>"; };
-		14FE011619A17B8200C3FA0F /* DatePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerView.xib; sourceTree = "<group>"; };
 		14FE011919A181FB00C3FA0F /* calendar_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendar_top.png; sourceTree = "<group>"; };
 		14FE012219A18A1800C3FA0F /* DatePickerCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerCollectionViewCell.h; sourceTree = "<group>"; };
 		14FE012319A18A1800C3FA0F /* DatePickerCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerCollectionViewCell.m; sourceTree = "<group>"; };
@@ -102,6 +103,8 @@
 				14FCA8DA19A2F4F90011B17A /* NSDate+Reporting.m */,
 				14FCA8D619A2F0770011B17A /* NSIndexPath+Utils.h */,
 				14FCA8D719A2F0770011B17A /* NSIndexPath+Utils.m */,
+				14782BB819A418EA00FA10B3 /* UIView+AutoLayout.h */,
+				14782BB919A418EA00FA10B3 /* UIView+AutoLayout.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -175,7 +178,6 @@
 				14FE011119A17AFA00C3FA0F /* CalendarWidget.m */,
 				14FE011319A17B6C00C3FA0F /* DatePickerView.h */,
 				14FE011419A17B6C00C3FA0F /* DatePickerView.m */,
-				14FE011619A17B8200C3FA0F /* DatePickerView.xib */,
 				14FE012219A18A1800C3FA0F /* DatePickerCollectionViewCell.h */,
 				14FE012319A18A1800C3FA0F /* DatePickerCollectionViewCell.m */,
 				14FE012719A18AAD00C3FA0F /* DatePickerCollectionViewCell.xib */,
@@ -276,7 +278,6 @@
 				14782BAF19A4144100FA10B3 /* left_chevron.png in Resources */,
 				14FE012819A18AAD00C3FA0F /* DatePickerCollectionViewCell.xib in Resources */,
 				14782BB019A4144100FA10B3 /* right_chevron.png in Resources */,
-				14FE011719A17B8200C3FA0F /* DatePickerView.xib in Resources */,
 				14FE00F819A17A8500C3FA0F /* Main.storyboard in Resources */,
 				14FE00FA19A17A8500C3FA0F /* Images.xcassets in Resources */,
 				14FE011A19A181FB00C3FA0F /* calendar_top.png in Resources */,
@@ -302,6 +303,7 @@
 				14FE011519A17B6C00C3FA0F /* DatePickerView.m in Sources */,
 				14FE00F519A17A8500C3FA0F /* ViewController.m in Sources */,
 				14FCA8DB19A2F4F90011B17A /* NSDate+Reporting.m in Sources */,
+				14782BBA19A418EA00FA10B3 /* UIView+AutoLayout.m in Sources */,
 				14FE011219A17AFA00C3FA0F /* CalendarWidget.m in Sources */,
 				14FE00F219A17A8500C3FA0F /* AppDelegate.m in Sources */,
 				14FE012419A18A1800C3FA0F /* DatePickerCollectionViewCell.m in Sources */,
