@@ -15,7 +15,6 @@
 
 static NSString * const kDatePickerCollectionViewCellIdentifier = @"DatePickerCollectionViewCellIdentifier";
 static NSString * const kDatePickerCollectionViewCellXib        = @"DatePickerCollectionViewCell";
-static NSUInteger const kDaysInWeek                             = 7;
 
 static CGFloat const kCollectionViewHeightBuffer                = 7.0f;
 static CGFloat const kViewWidth                                 = 316.0f;
@@ -54,6 +53,13 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 @property (strong, nonatomic) NSIndexPath *selectedIndex;
 @property (strong, nonatomic, readonly) NSArray *daysOfWeekPrefixes;
 
+@property (strong, nonatomic) NSDate *firstDateOfCurrentCalendarView;
+@property (strong, nonatomic, readonly) NSDate *lastDateOfCurrentCalendarView;
+
+@property (assign, nonatomic, readonly) BOOL isCurrentMonth;
+
+@property (strong, nonatomic) NSDateFormatter *dateFormatter;
+
 @end
 
 @implementation DatePickerView
@@ -72,7 +78,7 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     if (!_dayLabels) {
         _dayLabels = [[NSMutableArray alloc] init];
         
-        for (int i=0; i<kDaysInWeek; i++) {
+        for (int i=0; i<self.calendar.weekdaySymbols.count; i++) {
             UILabel *dayLabel = [[UILabel alloc] init];
             dayLabel.font = [UIFont fontWithName:kDefaultFontBold size:17.0f];
             dayLabel.textColor = [UIColor colorWithRed:201.0f/255.0f green:201.0f/255.0f blue:201.0f/255.0f alpha:1.0f];
@@ -143,15 +149,61 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 }
 
 - (NSInteger)offset {
-    return [self.calendar component:NSCalendarUnitWeekdayOrdinal fromDate:[NSDate lastDayOfCurrentMonth]];
+    return [self.calendar component:NSCalendarUnitWeekday fromDate:self.firstDateOfCurrentCalendarView]-1;
 }
 
 - (NSInteger)endPadding {
-    return (7 - [self.calendar component:NSCalendarUnitWeekday fromDate:[NSDate lastDayOfCurrentMonth]]);
+    return (self.calendar.weekdaySymbols.count - [self.calendar component:NSCalendarUnitWeekday fromDate:self.lastDateOfCurrentCalendarView]);
 }
 
 - (NSArray *)daysOfWeekPrefixes {
     return [self.calendar veryShortStandaloneWeekdaySymbols];
+}
+
+- (NSDate *)firstDateOfCurrentCalendarView {
+    if (!_firstDateOfCurrentCalendarView) {
+        _firstDateOfCurrentCalendarView = [self.calendar startOfDayForDate:[NSDate firstDayOfCurrentMonth]];
+    }
+    return _firstDateOfCurrentCalendarView;
+}
+
+- (NSDate *)lastDateOfCurrentCalendarView {
+    NSDate *lastDateOfCurrentMonth = self.firstDateOfCurrentCalendarView;
+    
+    NSDateComponents *component = [[NSDateComponents alloc] init];
+    [component setMonth:1];
+    
+    lastDateOfCurrentMonth = [self.calendar dateByAddingComponents:component
+                                                            toDate:lastDateOfCurrentMonth
+                                                           options:0];
+    
+    [component setMonth:0];
+    [component setDay:-1];
+    
+    lastDateOfCurrentMonth = [self.calendar dateByAddingComponents:component
+                                                            toDate:lastDateOfCurrentMonth
+                                                           options:0];
+    
+    return lastDateOfCurrentMonth;
+}
+
+- (BOOL)isCurrentMonth {
+    NSDate *currentDate = [NSDate date];
+    
+    if ([currentDate compare:self.firstDateOfCurrentCalendarView] != NSOrderedAscending &&
+        [currentDate compare:self.lastDateOfCurrentCalendarView] != NSOrderedDescending) {
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (NSDateFormatter *)dateFormatter {
+    if (!_dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        _dateFormatter.dateFormat = @"MMMM yyyy";
+    }
+    return _dateFormatter;
 }
 
 #pragma mark - Init
@@ -202,6 +254,8 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.collectionView registerNib:[UINib nibWithNibName:kDatePickerCollectionViewCellXib bundle:nil] forCellWithReuseIdentifier:kDatePickerCollectionViewCellIdentifier];
+    
+    [self refreshCalendar];
 }
 
 - (void)updateConstraints {
@@ -275,17 +329,34 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 #pragma mark - Actions
 
 - (void)leftChevronPressed:(id)sender {
-    
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    [components setMonth:-1];
+    self.firstDateOfCurrentCalendarView = [self.calendar dateByAddingComponents:components toDate:self.firstDateOfCurrentCalendarView options:0];
+    [self refreshCalendar];
 }
 
 - (void)rightChevronPressed:(id)sender {
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    [components setMonth:+1];
+    self.firstDateOfCurrentCalendarView = [self.calendar dateByAddingComponents:components toDate:self.firstDateOfCurrentCalendarView options:0];
+    [self refreshCalendar];
+}
+
+- (void)refreshCalendar {
+    if (self.selectedIndex != nil) {
+        DatePickerCollectionViewCell *cell = [self retrieveDatePickerCellWithCollectionView:self.collectionView andIndexPath:self.selectedIndex];
+        [cell setSelected:NO];
+        self.selectedIndex = nil;
+    }
     
+    self.monthTitleLabel.text = [[self.dateFormatter stringFromDate:self.firstDateOfCurrentCalendarView] capitalizedString];
+    [self.collectionView reloadData];
 }
 
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self.calendar component:NSCalendarUnitDay fromDate:[NSDate lastDayOfCurrentMonth]] + self.offset + self.endPadding;
+    return [self.calendar component:NSCalendarUnitDay fromDate:self.lastDateOfCurrentCalendarView] + self.offset + self.endPadding;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
@@ -308,17 +379,18 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     
     NSInteger currentDay = [self.calendar component:NSCalendarUnitDay fromDate:[NSDate date]];
     NSInteger current = indexPath.row - self.offset + 1;
-    NSInteger lastDay = [self.calendar component:NSCalendarUnitDay fromDate:[NSDate lastDayOfCurrentMonth]];
+    NSInteger lastDay = [self.calendar component:NSCalendarUnitDay fromDate:self.lastDateOfCurrentCalendarView];
     
     if (indexPath.row >= self.offset &&
         current <= lastDay) {
         [cell setDayLabelText:[NSString stringWithFormat:@"%ld", (long)current]];
-        [cell setEnabled:(current >= currentDay)];
+        [cell setEnabled:current >= currentDay];
         
         if (self.selectedIndex != nil &&
             [self.selectedIndex isEqualToIndexPath:indexPath]) {
             [cell setIsSelected:YES];
         } else if (self.selectedIndex == nil &&
+                   self.isCurrentMonth &&
                    current == currentDay) {
             [cell setIsSelected:YES];
         } else {
@@ -368,7 +440,7 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 #pragma mark - Utility
 
 - (CGFloat)collectionViewHeight {
-    NSInteger numberOfRows = [self collectionView:self.collectionView numberOfItemsInSection:0] / kDaysInWeek;
+    NSInteger numberOfRows = [self collectionView:self.collectionView numberOfItemsInSection:0] / self.calendar.weekdaySymbols.count;
     CGFloat rowHeight = [self collectionView:self.collectionView layout:self.calendarFlowLayout sizeForItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].height;
     return (CGFloat)numberOfRows * rowHeight + kCollectionViewHeightBuffer;
 }
