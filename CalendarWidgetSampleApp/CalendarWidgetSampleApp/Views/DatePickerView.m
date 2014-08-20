@@ -88,6 +88,8 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     if (!_leftChevronButton) {
         _leftChevronButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_leftChevronButton setImage:[UIImage imageNamed:kLeftChevronImageName] forState:UIControlStateNormal];
+        [_leftChevronButton setImage:[UIImage imageNamed:kLeftChevronImageName] forState:UIControlStateHighlighted];
+        [_leftChevronButton addTarget:self action:@selector(leftChevronPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _leftChevronButton;
 }
@@ -105,8 +107,10 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 
 - (UIButton *)rightChevronButton {
     if (!_rightChevronButton) {
-        _rightChevronButton = [[UIButton alloc] init];
+        _rightChevronButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_rightChevronButton setImage:[UIImage imageNamed:kRightChevronImageName] forState:UIControlStateNormal];
+        [_rightChevronButton setImage:[UIImage imageNamed:kRightChevronImageName] forState:UIControlStateHighlighted];
+        [_rightChevronButton addTarget:self action:@selector(rightChevronPressed:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _rightChevronButton;
 }
@@ -147,13 +151,13 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 }
 
 - (NSArray *)daysOfWeekPrefixes {
-    return @[@"S", @"M", @"T", @"W", @"T", @"F", @"S"];
+    return [self.calendar veryShortStandaloneWeekdaySymbols];
 }
 
 #pragma mark - Init
 
 - (instancetype)init {
-    if (self = [super initWithFrame:CGRectMake(0, 0, 316.0f, 480.0f)]) {
+    if (self = [super init]) {
         [self commonInit];
     }
     return self;
@@ -174,6 +178,10 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 }
 
 - (void)commonInit {
+    CGRect frame = self.frame;
+    frame = CGRectMake(frame.origin.x, frame.origin.y, kViewWidth, 480.0f);
+    self.frame = frame;
+    
     [self.headerView addSubview:self.leftChevronButton];
     [self.headerView addSubview:self.monthTitleLabel];
     [self.headerView addSubview:self.rightChevronButton];
@@ -264,6 +272,16 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     }
 }
 
+#pragma mark - Actions
+
+- (void)leftChevronPressed:(id)sender {
+    
+}
+
+- (void)rightChevronPressed:(id)sender {
+    
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -272,6 +290,16 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return [self retrieveDatePickerCellWithCollectionView:collectionView
+                                             andIndexPath:indexPath];
+}
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
+}
+
+- (DatePickerCollectionViewCell *)retrieveDatePickerCellWithCollectionView:(UICollectionView *)collectionView
+                                                              andIndexPath:(NSIndexPath *)indexPath {
     DatePickerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kDatePickerCollectionViewCellIdentifier forIndexPath:indexPath];
     
     if (cell == nil) {
@@ -284,7 +312,7 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     
     if (indexPath.row >= self.offset &&
         current <= lastDay) {
-        [cell setDayLabelText:[NSString stringWithFormat:@"%lu", current]];
+        [cell setDayLabelText:[NSString stringWithFormat:@"%ld", (long)current]];
         [cell setEnabled:(current >= currentDay)];
         
         if (self.selectedIndex != nil &&
@@ -304,15 +332,10 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     return cell;
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
-}
-
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    DatePickerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kDatePickerCollectionViewCellIdentifier
-                                                                                   forIndexPath:indexPath];
+    DatePickerCollectionViewCell *cell = [self retrieveDatePickerCellWithCollectionView:collectionView andIndexPath:indexPath];
     
     if (cell.enabled &&
         !cell.booked) {
