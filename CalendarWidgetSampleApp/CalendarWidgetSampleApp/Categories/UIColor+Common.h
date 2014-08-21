@@ -10,6 +10,9 @@
 
 @interface UIColor (Common)
 
++ (UIColor *)calendarWidgetBackground;
++ (UIColor *)titleLabelColor;
+
 // DatePickerCollectionViewCell Colors
 + (UIColor *)dateSlashColor;
 + (UIColor *)dateEnabledColor;

@@ -35,7 +35,7 @@
             <connections>
                 <outlet property="dayLabel" destination="MRJ-4x-NbQ" id="aeC-KH-DcA"/>
             </connections>
-            <point key="canvasLocation" x="-27" y="282"/>
+            <point key="canvasLocation" x="-265" y="234"/>
         </collectionViewCell>
     </objects>
 </document>

@@ -10,4 +10,6 @@
 
 @interface UIFont (FontType)
 
++ (UIFont *)titleFont;
+
 @end

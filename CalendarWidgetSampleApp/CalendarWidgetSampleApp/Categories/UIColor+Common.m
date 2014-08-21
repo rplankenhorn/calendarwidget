@@ -10,6 +10,14 @@
 
 @implementation UIColor (Common)
 
++ (UIColor *)titleLabelColor {
+    return [UIColor colorWithRed:87.0f/255.0f green:97.0f/255.0f blue:102.0f/255.0f alpha:1.0f];
+}
+
++ (UIColor *)calendarWidgetBackground {
+    return [UIColor colorWithRed:237.0f/255.0f green:237.0f/255.0f blue:237.0f/255.0f alpha:1.0f];
+}
+
 + (UIColor *)dateSlashColor {
     return [UIColor colorWithRed:197.0f/255.0f green:198.0f/255.0f blue:195.0f/255.0f alpha:1.0f];
 }

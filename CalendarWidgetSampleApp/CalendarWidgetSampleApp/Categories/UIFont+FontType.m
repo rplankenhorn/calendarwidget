@@ -8,6 +8,13 @@
 
 #import "UIFont+FontType.h"
 
+static NSString * const kDefaultFont                            = @"HelveticaNeue";
+static NSString * const kDefaultFontBold                        = @"HelveticaNeue-Bold";
+
 @implementation UIFont (FontType)
+
++ (UIFont *)titleFont {
+    return [UIFont fontWithName:kDefaultFontBold size:17.0f];
+}
 
 @end

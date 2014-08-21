@@ -19,14 +19,14 @@ static NSString * const kDatePickerCollectionViewCellXib        = @"DatePickerCo
 
 static CGFloat const kCollectionViewHeightBuffer                = 7.0f;
 static CGFloat const kViewWidth                                 = 316.0f;
-static CGFloat const kHeaderViewHeight                          = 101.0f;
+static CGFloat const kHeaderViewHeight                          = 85.0f;
 static CGSize const kDayLabelSize                               = {15.0f, 21.0f};
 static CGSize const kChevronSize                                = {26.0f, 27.0f};
 static CGFloat const kChevronSpacing                            = 10.0f;
 static CGFloat const kMonthTitleLabelHeight                     = 21.0f;
 
-static UIEdgeInsets const kSectionInset                         = {1.0f, 1.0f, 1.0f, 1.0f};
-static CGSize const kCollectionViewCellSize                     = {44.0f, 44.0f};
+static UIEdgeInsets const kSectionInset                         = {1.0f, 1.0f, 1.0f, 0.0f};
+static CGSize const kCollectionViewCellSize                     = {40.0f, 40.0f};
 static CGFloat const kMinimumInteritemSpacing                   = 1.0f;
 static CGFloat const kMinimumLineSpacing                        = 1.0f;
 
@@ -71,6 +71,7 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     if (!_headerView) {
         _headerView = [[UIView alloc] init];
         _headerView.backgroundColor = [UIColor headerBackgroundColor];
+        _headerView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _headerView;
 }
@@ -85,6 +86,7 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
             dayLabel.textColor = [UIColor colorWithRed:201.0f/255.0f green:201.0f/255.0f blue:201.0f/255.0f alpha:1.0f];
             dayLabel.text = self.daysOfWeekPrefixes[i];
             dayLabel.textAlignment = NSTextAlignmentCenter;
+            dayLabel.translatesAutoresizingMaskIntoConstraints = NO;
             [_dayLabels addObject:dayLabel];
         }
     }
@@ -97,6 +99,7 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
         [_leftChevronButton setImage:[UIImage imageNamed:kLeftChevronImageName] forState:UIControlStateNormal];
         [_leftChevronButton setImage:[UIImage imageNamed:kLeftChevronImageName] forState:UIControlStateHighlighted];
         [_leftChevronButton addTarget:self action:@selector(leftChevronPressed:) forControlEvents:UIControlEventTouchUpInside];
+        _leftChevronButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _leftChevronButton;
 }
@@ -108,6 +111,7 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
         _monthTitleLabel.textColor = [UIColor colorWithRed:87.0f/255.0f green:97.0f/255.0f blue:102.0f/255.0f alpha:1.0f];
         _monthTitleLabel.textAlignment = NSTextAlignmentCenter;
         _monthTitleLabel.text = @"December 2013";
+        _monthTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _monthTitleLabel;
 }
@@ -118,6 +122,7 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
         [_rightChevronButton setImage:[UIImage imageNamed:kRightChevronImageName] forState:UIControlStateNormal];
         [_rightChevronButton setImage:[UIImage imageNamed:kRightChevronImageName] forState:UIControlStateHighlighted];
         [_rightChevronButton addTarget:self action:@selector(rightChevronPressed:) forControlEvents:UIControlEventTouchUpInside];
+        _rightChevronButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _rightChevronButton;
 }
@@ -128,6 +133,7 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
         _collectionView.backgroundColor = [UIColor colorWithRed:197.0f/255.0f green:198/255.0f  blue:195.0f/255.0f  alpha:1.0f];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
+        _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _collectionView;
 }
@@ -231,10 +237,6 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 }
 
 - (void)commonInit {
-    CGRect frame = self.frame;
-    frame = CGRectMake(frame.origin.x, frame.origin.y, kViewWidth, 480.0f);
-    self.frame = frame;
-    
     [self.headerView addSubview:self.leftChevronButton];
     [self.headerView addSubview:self.monthTitleLabel];
     [self.headerView addSubview:self.rightChevronButton];
@@ -270,12 +272,12 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
                               @"collectionViewHeight": @([self collectionViewHeight])};
     
     // Add horizontal constraints for main subviews
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[headerView(==width)]-0-|"
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[headerView]-0-|"
                                                                  options:0
                                                                  metrics:metrics
                                                                    views:viewsDictionary]];
     
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[collectionView(==width)]-0-|"
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[collectionView]-0-|"
                                                                  options:0
                                                                  metrics:metrics
                                                                    views:viewsDictionary]];

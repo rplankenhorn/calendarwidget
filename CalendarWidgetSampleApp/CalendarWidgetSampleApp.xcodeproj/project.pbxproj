@@ -186,11 +186,11 @@
 			children = (
 				14FE011019A17AFA00C3FA0F /* CalendarWidget.h */,
 				14FE011119A17AFA00C3FA0F /* CalendarWidget.m */,
-				14FE011319A17B6C00C3FA0F /* DatePickerView.h */,
-				14FE011419A17B6C00C3FA0F /* DatePickerView.m */,
 				14FE012219A18A1800C3FA0F /* DatePickerCollectionViewCell.h */,
 				14FE012319A18A1800C3FA0F /* DatePickerCollectionViewCell.m */,
 				14FE012719A18AAD00C3FA0F /* DatePickerCollectionViewCell.xib */,
+				14FE011319A17B6C00C3FA0F /* DatePickerView.h */,
+				14FE011419A17B6C00C3FA0F /* DatePickerView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";

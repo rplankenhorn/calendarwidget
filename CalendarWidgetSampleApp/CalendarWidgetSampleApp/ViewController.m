@@ -7,7 +7,9 @@
 //
 
 #import "ViewController.h"
+#import "CalendarWidget.h"
 #import "DatePickerView.h"
+#import "UIView+AutoLayout.h"
 
 @interface ViewController ()
 
@@ -20,8 +22,13 @@
     // Do any additional setup after loading the view, typically from a nib.
     
 //    DatePickerView *datePickerView = [[[NSBundle mainBundle] loadNibNamed:@"DatePickerView" owner:nil options:nil] lastObject];
-    DatePickerView *datePickerView = [[DatePickerView alloc] init];
+    CalendarWidget *datePickerView = [[CalendarWidget alloc] init];
     [self.view addSubview:datePickerView];
+    
+    datePickerView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [datePickerView centerInView:self.view];
+    [datePickerView constrainToSize:CGSizeMake(312, 408)];
 }
 
 - (void)didReceiveMemoryWarning {
