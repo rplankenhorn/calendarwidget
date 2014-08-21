@@ -357,7 +357,8 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self.calendar component:NSCalendarUnitDay fromDate:self.lastDateOfCurrentCalendarView] + self.offset + self.endPadding;
+//    return [self.calendar component:NSCalendarUnitDay fromDate:self.lastDateOfCurrentCalendarView] + self.offset + self.endPadding;
+    return self.calendar.weekdaySymbols.count * 6;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
@@ -382,10 +383,20 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     NSInteger current = indexPath.row - self.offset + 1;
     NSInteger lastDay = [self.calendar component:NSCalendarUnitDay fromDate:self.lastDateOfCurrentCalendarView];
     
+    BOOL enableCell = NO;
+    
+    if ([self.firstDateOfCurrentCalendarView compare:[NSDate date]] == NSOrderedDescending) {
+        // Enable cell if the first date is greater than the current date.
+        enableCell = YES;
+    } else if (self.isCurrentMonth &&
+               current >= currentDay) {
+        enableCell = YES;
+    }
+    
     if (indexPath.row >= self.offset &&
         current <= lastDay) {
         [cell setDayLabelText:[NSString stringWithFormat:@"%ld", (long)current]];
-        [cell setEnabled:current >= currentDay];
+        [cell setEnabled:enableCell];
         
         if (self.selectedIndex != nil &&
             [self.selectedIndex isEqualToIndexPath:indexPath]) {
@@ -409,7 +420,6 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     DatePickerCollectionViewCell *cell = [self retrieveDatePickerCellWithCollectionView:collectionView andIndexPath:indexPath];
-    
     if (cell.enabled &&
         !cell.booked) {
         self.selectedIndex = indexPath;
