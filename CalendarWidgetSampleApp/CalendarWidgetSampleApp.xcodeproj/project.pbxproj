@@ -10,6 +10,8 @@
 		14782BAF19A4144100FA10B3 /* left_chevron.png in Resources */ = {isa = PBXBuildFile; fileRef = 14782BAD19A4144100FA10B3 /* left_chevron.png */; };
 		14782BB019A4144100FA10B3 /* right_chevron.png in Resources */ = {isa = PBXBuildFile; fileRef = 14782BAE19A4144100FA10B3 /* right_chevron.png */; };
 		14782BBA19A418EA00FA10B3 /* UIView+AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 14782BB919A418EA00FA10B3 /* UIView+AutoLayout.m */; };
+		14839F1419A574C20008F567 /* UIFont+FontType.m in Sources */ = {isa = PBXBuildFile; fileRef = 14839F1319A574C20008F567 /* UIFont+FontType.m */; };
+		14839F1F19A575800008F567 /* UIColor+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 14839F1E19A575800008F567 /* UIColor+Common.m */; };
 		14B3809C19A2DA3900BFAEA9 /* CalendarFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B3809B19A2DA3900BFAEA9 /* CalendarFlowLayout.m */; };
 		14FCA8D819A2F0770011B17A /* NSIndexPath+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FCA8D719A2F0770011B17A /* NSIndexPath+Utils.m */; };
 		14FCA8DB19A2F4F90011B17A /* NSDate+Reporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FCA8DA19A2F4F90011B17A /* NSDate+Reporting.m */; };
@@ -41,6 +43,10 @@
 		14782BAE19A4144100FA10B3 /* right_chevron.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_chevron.png; sourceTree = "<group>"; };
 		14782BB819A418EA00FA10B3 /* UIView+AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AutoLayout.h"; sourceTree = "<group>"; };
 		14782BB919A418EA00FA10B3 /* UIView+AutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AutoLayout.m"; sourceTree = "<group>"; };
+		14839F1219A574C20008F567 /* UIFont+FontType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+FontType.h"; sourceTree = "<group>"; };
+		14839F1319A574C20008F567 /* UIFont+FontType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+FontType.m"; sourceTree = "<group>"; };
+		14839F1D19A575800008F567 /* UIColor+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Common.h"; sourceTree = "<group>"; };
+		14839F1E19A575800008F567 /* UIColor+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Common.m"; sourceTree = "<group>"; };
 		14B3809A19A2DA3900BFAEA9 /* CalendarFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarFlowLayout.h; sourceTree = "<group>"; };
 		14B3809B19A2DA3900BFAEA9 /* CalendarFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarFlowLayout.m; sourceTree = "<group>"; };
 		14FCA8D619A2F0770011B17A /* NSIndexPath+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexPath+Utils.h"; sourceTree = "<group>"; };
@@ -103,6 +109,10 @@
 				14FCA8DA19A2F4F90011B17A /* NSDate+Reporting.m */,
 				14FCA8D619A2F0770011B17A /* NSIndexPath+Utils.h */,
 				14FCA8D719A2F0770011B17A /* NSIndexPath+Utils.m */,
+				14839F1D19A575800008F567 /* UIColor+Common.h */,
+				14839F1E19A575800008F567 /* UIColor+Common.m */,
+				14839F1219A574C20008F567 /* UIFont+FontType.h */,
+				14839F1319A574C20008F567 /* UIFont+FontType.m */,
 				14782BB819A418EA00FA10B3 /* UIView+AutoLayout.h */,
 				14782BB919A418EA00FA10B3 /* UIView+AutoLayout.m */,
 			);
@@ -298,6 +308,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14839F1F19A575800008F567 /* UIColor+Common.m in Sources */,
 				14FCA8D819A2F0770011B17A /* NSIndexPath+Utils.m in Sources */,
 				14B3809C19A2DA3900BFAEA9 /* CalendarFlowLayout.m in Sources */,
 				14FE011519A17B6C00C3FA0F /* DatePickerView.m in Sources */,
@@ -306,6 +317,7 @@
 				14782BBA19A418EA00FA10B3 /* UIView+AutoLayout.m in Sources */,
 				14FE011219A17AFA00C3FA0F /* CalendarWidget.m in Sources */,
 				14FE00F219A17A8500C3FA0F /* AppDelegate.m in Sources */,
+				14839F1419A574C20008F567 /* UIFont+FontType.m in Sources */,
 				14FE012419A18A1800C3FA0F /* DatePickerCollectionViewCell.m in Sources */,
 				14FE00EF19A17A8500C3FA0F /* main.m in Sources */,
 			);

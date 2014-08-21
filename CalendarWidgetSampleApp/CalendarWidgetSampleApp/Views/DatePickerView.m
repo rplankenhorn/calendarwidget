@@ -12,6 +12,7 @@
 #import "NSIndexPath+Utils.h"
 #import "NSDate+Reporting.h"
 #import "UIView+AutoLayout.h"
+#import "UIColor+Common.h"
 
 static NSString * const kDatePickerCollectionViewCellIdentifier = @"DatePickerCollectionViewCellIdentifier";
 static NSString * const kDatePickerCollectionViewCellXib        = @"DatePickerCollectionViewCell";
@@ -69,7 +70,7 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 - (UIView *)headerView {
     if (!_headerView) {
         _headerView = [[UIView alloc] init];
-        _headerView.backgroundColor = [UIColor colorWithRed:239.0f/255.0f green:239.0f/255.0f  blue:235.0f/255.0f  alpha:1.0f];
+        _headerView.backgroundColor = [UIColor headerBackgroundColor];
     }
     return _headerView;
 }
