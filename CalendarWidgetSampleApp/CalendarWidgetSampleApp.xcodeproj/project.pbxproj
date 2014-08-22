@@ -190,6 +190,8 @@
 		14FE010F19A17AA000C3FA0F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1473B9E719A6BB92008A28AC /* BasePickerView.h */,
+				1473B9E819A6BB92008A28AC /* BasePickerView.m */,
 				14FE011019A17AFA00C3FA0F /* CalendarWidget.h */,
 				14FE011119A17AFA00C3FA0F /* CalendarWidget.m */,
 				14FE012219A18A1800C3FA0F /* DatePickerCollectionViewCell.h */,
@@ -199,8 +201,6 @@
 				14FE011419A17B6C00C3FA0F /* DatePickerView.m */,
 				1473B9E419A6BB38008A28AC /* TimePickerView.h */,
 				1473B9E519A6BB38008A28AC /* TimePickerView.m */,
-				1473B9E719A6BB92008A28AC /* BasePickerView.h */,
-				1473B9E819A6BB92008A28AC /* BasePickerView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";

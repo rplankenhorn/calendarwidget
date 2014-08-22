@@ -31,6 +31,53 @@
     return _calendarFlowLayout;
 }
 
+- (NSCalendar *)calendar {
+    if (!_calendar) {
+        _calendar = [NSCalendar currentCalendar];
+    }
+    return _calendar;
+}
+
+- (NSDateFormatter *)dateFormatter {
+    if (!_dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc] init];
+    }
+    return _dateFormatter;
+}
+
+#pragma mark - Init
+
+- (instancetype)init {
+    if (self = [super init]) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        [self commonInit];
+    }
+    return self;
+}
+
+- (void)commonInit {
+    [self.collectionView registerNib:[UINib nibWithNibName:kPickerCollectionViewCellXib bundle:nil] forCellWithReuseIdentifier:kPickerCollectionViewCellIdentifier];
+}
+
+#pragma mark - Actions
+
+- (void)clear {
+    NSAssert(NO, @"clear must be overridden in the child class!");
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -40,13 +87,29 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSAssert(NO, @"collectionView:cellForItemAtIndexPath: must be overridden in the child class!");
+    return [self retrieveDatePickerCellWithCollectionView:collectionView
+                                             andIndexPath:indexPath];
+}
+
+- (DatePickerCollectionViewCell *)retrieveDatePickerCellWithCollectionView:(UICollectionView *)collectionView
+                                                              andIndexPath:(NSIndexPath *)indexPath {
+    NSAssert(NO, @"retrieveDatePickerCellWithCollectionView:andIndexPath: must be overridden in the child class!");
     return nil;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    NSAssert(NO, @"numberOfSectionsInCollectionView: must be overridden in the child class!");
-    return 0;
+    return 1;
+}
+
+#pragma mark - UICollectionViewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    DatePickerCollectionViewCell *cell = [self retrieveDatePickerCellWithCollectionView:collectionView andIndexPath:indexPath];
+    if (cell.enabled &&
+        !cell.booked) {
+        self.selectedIndex = indexPath;
+        [self.collectionView reloadData];
+    }
 }
 
 @end

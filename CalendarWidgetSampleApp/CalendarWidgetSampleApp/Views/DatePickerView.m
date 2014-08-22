@@ -14,9 +14,6 @@
 #import "UIView+AutoLayout.h"
 #import "UIColor+Common.h"
 
-static NSString * const kDatePickerCollectionViewCellIdentifier = @"DatePickerCollectionViewCellIdentifier";
-static NSString * const kDatePickerCollectionViewCellXib        = @"DatePickerCollectionViewCell";
-
 static CGFloat const kCollectionViewHeightBuffer                = 7.0f;
 static CGFloat const kViewWidth                                 = 316.0f;
 static CGFloat const kHeaderViewHeight                          = 85.0f;
@@ -46,18 +43,14 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 @property (strong, nonatomic) UIButton *rightChevronButton;
 
 // Local properties
-@property (strong, nonatomic) NSCalendar *calendar;
 @property (assign, nonatomic, readonly) NSInteger offset;
 @property (assign, nonatomic, readonly) NSInteger endPadding;
-@property (strong, nonatomic) NSIndexPath *selectedIndex;
 @property (strong, nonatomic, readonly) NSArray *daysOfWeekPrefixes;
 
 @property (strong, nonatomic) NSDate *firstDateOfCurrentCalendarView;
 @property (strong, nonatomic, readonly) NSDate *lastDateOfCurrentCalendarView;
 
 @property (assign, nonatomic, readonly) BOOL isCurrentMonth;
-
-@property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
 @end
 
@@ -125,13 +118,6 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     return _rightChevronButton;
 }
 
-- (NSCalendar *)calendar {
-    if (!_calendar) {
-        _calendar = [NSCalendar currentCalendar];
-    }
-    return _calendar;
-}
-
 - (NSInteger)offset {
     return [self.calendar component:NSCalendarUnitWeekday fromDate:self.firstDateOfCurrentCalendarView]-1;
 }
@@ -182,38 +168,13 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     return NO;
 }
 
-- (NSDateFormatter *)dateFormatter {
-    if (!_dateFormatter) {
-        _dateFormatter = [[NSDateFormatter alloc] init];
-        _dateFormatter.dateFormat = @"MMMM yyyy";
-    }
-    return _dateFormatter;
-}
-
 #pragma mark - Init
 
-- (instancetype)init {
-    if (self = [super init]) {
-        [self commonInit];
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    if (self = [super initWithCoder:aDecoder]) {
-        [self commonInit];
-    }
-    return self;
-}
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        [self commonInit];
-    }
-    return self;
-}
-
 - (void)commonInit {
+    [super commonInit];
+    
+    self.dateFormatter.dateFormat = @"MMMM yyyy";
+    
     [self.headerView addSubview:self.leftChevronButton];
     [self.headerView addSubview:self.monthTitleLabel];
     [self.headerView addSubview:self.rightChevronButton];
@@ -232,8 +193,6 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     self.monthTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.rightChevronButton.translatesAutoresizingMaskIntoConstraints = NO;
     self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    [self.collectionView registerNib:[UINib nibWithNibName:kDatePickerCollectionViewCellXib bundle:nil] forCellWithReuseIdentifier:kDatePickerCollectionViewCellIdentifier];
     
     [self refreshCalendar];
 }
@@ -323,7 +282,9 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 }
 
 - (void)refreshCalendar {
-    if (self.selectedIndex != nil) {
+    if (self.selectedIndex != nil &&
+        self.selectedIndex.row != INT_MAX &&
+        self.selectedIndex.section != INT_MAX) {
         DatePickerCollectionViewCell *cell = [self retrieveDatePickerCellWithCollectionView:self.collectionView andIndexPath:self.selectedIndex];
         [cell setSelected:NO];
         self.selectedIndex = nil;
@@ -333,8 +294,10 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     [self.collectionView reloadData];
 }
 
-- (void)clearSelectedDate {
-    self.selectedIndex = nil;
+- (void)clear {
+    // Need to set selectedIndex to a value that isn't nil so that when we refresh the collection view, we don't
+    // automatically select the current date.
+    self.selectedIndex = [NSIndexPath indexPathForRow:INT_MAX inSection:INT_MAX];
     [self refreshCalendar];
 }
 
@@ -344,19 +307,9 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     return self.calendar.weekdaySymbols.count * 6;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                  cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return [self retrieveDatePickerCellWithCollectionView:collectionView
-                                             andIndexPath:indexPath];
-}
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
-}
-
 - (DatePickerCollectionViewCell *)retrieveDatePickerCellWithCollectionView:(UICollectionView *)collectionView
                                                               andIndexPath:(NSIndexPath *)indexPath {
-    DatePickerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kDatePickerCollectionViewCellIdentifier forIndexPath:indexPath];
+    DatePickerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kPickerCollectionViewCellIdentifier forIndexPath:indexPath];
     
     if (cell == nil) {
         cell = [[DatePickerCollectionViewCell alloc] init];
@@ -397,17 +350,6 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     }
     
     return cell;
-}
-
-#pragma mark - UICollectionViewDelegate
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    DatePickerCollectionViewCell *cell = [self retrieveDatePickerCellWithCollectionView:collectionView andIndexPath:indexPath];
-    if (cell.enabled &&
-        !cell.booked) {
-        self.selectedIndex = indexPath;
-        [self.collectionView reloadData];
-    }
 }
 
 #pragma mark Collection view layout

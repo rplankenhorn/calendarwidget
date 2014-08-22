@@ -14,13 +14,17 @@
 #import "TimePickerView.h"
 
 @interface CalendarWidget ()
+
 @property (strong, nonatomic) UIView *containerView;
 @property (strong, nonatomic) UIButton *dateTabButton;
 @property (strong, nonatomic) UIButton *timeTabButton;
 @property (strong, nonatomic) UIView *pickerContainerView;
 @property (strong, nonatomic) DatePickerView *datePickerView;
-@property (strong, nonatomic) UIView *timePickerView;
+@property (strong, nonatomic) TimePickerView *timePickerView;
 @property (strong, nonatomic) UIButton *clearAllButton;
+
+@property (strong, nonatomic) BasePickerView *selectedPicker;
+
 @end
 
 @implementation CalendarWidget
@@ -45,6 +49,7 @@
         [_dateTabButton setTitle:@"Wed, Dec 18" forState:UIControlStateHighlighted];
         [_dateTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateNormal];
         [_dateTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateHighlighted];
+        [_dateTabButton addTarget:self action:@selector(dateTabTapped:) forControlEvents:UIControlEventTouchUpInside];
         _dateTabButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _dateTabButton;
@@ -53,12 +58,13 @@
 - (UIButton *)timeTabButton {
     if (!_timeTabButton) {
         _timeTabButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _timeTabButton.backgroundColor = [UIColor headerBackgroundColor];
+        _timeTabButton.backgroundColor = [UIColor whiteColor];
         _timeTabButton.titleLabel.font = [UIFont titleFont];
         [_timeTabButton setTitle:@"Select Time" forState:UIControlStateNormal];
         [_timeTabButton setTitle:@"Select Time" forState:UIControlStateHighlighted];
         [_timeTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateNormal];
         [_timeTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateHighlighted];
+        [_timeTabButton addTarget:self action:@selector(timeTabTapped:) forControlEvents:UIControlEventTouchUpInside];
         _timeTabButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _timeTabButton;
@@ -80,9 +86,9 @@
     return _datePickerView;
 }
 
-- (UIView *)timePickerView {
+- (TimePickerView *)timePickerView {
     if (!_timePickerView) {
-        _timePickerView = [[UIView alloc] init];
+        _timePickerView = [[TimePickerView alloc] init];
         _timePickerView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _timePickerView;
@@ -94,9 +100,8 @@
         _clearAllButton.backgroundColor = [UIColor headerBackgroundColor];
         _clearAllButton.titleLabel.font = [UIFont titleFont];
         [_clearAllButton setTitle:@"Clear All" forState:UIControlStateNormal];
-        [_clearAllButton setTitle:@"Clear All" forState:UIControlStateHighlighted];
         [_clearAllButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateNormal];
-        [_clearAllButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateHighlighted];
+        [_clearAllButton addTarget:self action:@selector(clearAllButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         _clearAllButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _clearAllButton;
@@ -136,6 +141,8 @@
     [self.containerView addSubview:self.clearAllButton];
     
     [self.pickerContainerView addSubview:self.datePickerView];
+    
+    self.selectedPicker = self.datePickerView;
 }
 
 - (void)updateConstraints {
@@ -150,7 +157,7 @@
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-margin-[containerView]-margin-|" options:0 metrics:metrics views:viewsDictionary]];
     
     [self setupContainerViewConstraints];
-    [self setupPickerContainerViewContraints];
+    [self setupPickerContainerViewContraintsForPicker:self.selectedPicker];
 }
 
 - (void)setupContainerViewConstraints {
@@ -168,14 +175,52 @@
     [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-margin-[timeTabButton(==tabButtonHeight)]-margin-[pickerContainerView]-margin-[clearAllButton]-margin-|" options:0 metrics:metrics views:viewsDictionary]];
 }
 
-- (void)setupPickerContainerViewContraints {
-    NSDictionary *viewsDictionary = @{@"datePickerView": self.datePickerView,
-                                      @"timePickerView": self.timePickerView};
+- (void)setupPickerContainerViewContraintsForPicker:(BasePickerView *)picker {
+    NSDictionary *viewsDictionary = @{@"picker": picker};
     
-    self.datePickerView.translatesAutoresizingMaskIntoConstraints = NO;
+    picker.translatesAutoresizingMaskIntoConstraints = NO;
     
-    [self.pickerContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[datePickerView]-0-|" options:0 metrics:nil views:viewsDictionary]];
-    [self.pickerContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[datePickerView]-0-|" options:0 metrics:nil views:viewsDictionary]];
+    [self.pickerContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[picker]-0-|" options:0 metrics:nil views:viewsDictionary]];
+    [self.pickerContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[picker]-0-|" options:0 metrics:nil views:viewsDictionary]];
+}
+
+#pragma mark - Actions
+
+- (void)clearAllButtonPressed:(id)sender {
+    [self.datePickerView clear];
+    [self.timePickerView clear];
+}
+
+- (void)dateTabTapped:(id)sender {
+    if (![self.selectedPicker isKindOfClass:[DatePickerView class]]) {
+        [self.selectedPicker removeFromSuperview];
+        [self.pickerContainerView addSubview:self.datePickerView];
+        [self setupPickerContainerViewContraintsForPicker:self.datePickerView];
+        self.selectedPicker = self.datePickerView;
+        [self setButton:self.dateTabButton enabled:YES];
+        [self setButton:self.timeTabButton enabled:NO];
+    }
+}
+
+- (void)timeTabTapped:(id)sender {
+    if (![self.selectedPicker isKindOfClass:[TimePickerView class]]) {
+        [self.selectedPicker removeFromSuperview];
+        [self.pickerContainerView addSubview:self.timePickerView];
+        [self setupPickerContainerViewContraintsForPicker:self.timePickerView];
+        self.selectedPicker = self.timePickerView;
+        [_dateTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateNormal];
+        [_dateTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateHighlighted];
+        [self setButton:self.dateTabButton enabled:NO];
+        [self setButton:self.timeTabButton enabled:YES];
+    }
+}
+
+- (void)setButton:(UIButton *)button enabled:(BOOL)enabled {
+    if (enabled) {
+        button.backgroundColor = [UIColor headerBackgroundColor];
+    } else {
+        button.backgroundColor = [UIColor whiteColor];
+    }
 }
 
 @end

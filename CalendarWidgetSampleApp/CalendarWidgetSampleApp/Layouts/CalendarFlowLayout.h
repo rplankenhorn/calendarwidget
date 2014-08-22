@@ -10,4 +10,6 @@
 
 @interface CalendarFlowLayout : UICollectionViewFlowLayout
 
+@property (assign, nonatomic) NSInteger maximumSpacing;
+
 @end

@@ -8,10 +8,173 @@
 
 #import "TimePickerView.h"
 
+static UIEdgeInsets const kSectionInset                         = {10.0f, 20.0f, 10.0f, 10.0f};
+static CGSize const kCollectionViewCellSize                     = {120.0f, 40.0f};
+static CGFloat const kMinimumInteritemSpacing                   = 5.0f;
+static CGFloat const kMinimumLineSpacing                        = 5.0f;
+static CGFloat const kSecondsIn15Min                            = 900.0f;
+static CGFloat const kSecondsInHalfHour                         = 1800.0f;
+static CGFloat const kSecondsInHour                             = 3600.0f;
+
 @interface TimePickerView ()
-@property (strong, nonatomic) UICollectionView *collectionView;
+@property (strong, nonatomic) NSArray *times;
+@property (assign, nonatomic, readonly) NSInteger appointmentLength;
+@property (assign, nonatomic, readonly) NSInteger numberOfAppointmentsInDay;
 @end
 
 @implementation TimePickerView
+
+#pragma mark - Getters
+
+- (NSArray *)times {
+    if (!_times) {
+        if ([self.dataSource respondsToSelector:@selector(availableTimesForTimePickerView:)]) {
+            _times = [self.dataSource availableTimesForTimePickerView:self];
+        } else {
+            NSMutableArray *mutTimes = [[NSMutableArray alloc] init];
+            
+            NSDateComponents *components = [[NSDateComponents alloc] init];
+            [components setHour:0];
+            [components setMinute:0];
+            
+            NSDate *previousDate = [self.calendar dateFromComponents:components];
+            [mutTimes addObject:previousDate];
+            
+            for (int i=1; i<self.numberOfAppointmentsInDay; i++) {
+                NSDate *date = [NSDate dateWithTimeInterval:self.appointmentLength sinceDate:previousDate];
+                [mutTimes addObject:date];
+                previousDate = date;
+            }
+            
+            _times = [NSArray arrayWithArray:mutTimes];
+        }
+    }
+    return _times;
+}
+
+- (NSInteger)appointmentLength {
+    if ([self.dataSource respondsToSelector:@selector(timeIntervalForTimePickerView:)]) {
+        switch ([self.dataSource timeIntervalForTimePickerView:self]) {
+            case TimePickerTimeInterval_15MIN:
+                return kSecondsIn15Min;
+            case TimePickerTimeInterval_30MIN:
+                return kSecondsInHalfHour;
+            case TimePickerTimeInterval_1HR:
+            default:
+                return kSecondsInHour;
+        }
+    } else {
+        return kSecondsInHour;
+    }
+}
+
+- (NSInteger)numberOfAppointmentsInDay {
+    if ([self.dataSource respondsToSelector:@selector(timeIntervalForTimePickerView:)]) {
+        return 24 * [self.dataSource timeIntervalForTimePickerView:self];
+    } else {
+        return 24;
+    }
+}
+
+#pragma mark - Init
+
+- (void)commonInit {
+    [super commonInit];
+    self.backgroundColor = [UIColor headerBackgroundColor];
+    
+    self.dateFormatter.timeStyle = NSDateFormatterShortStyle;
+    self.calendarFlowLayout.maximumSpacing = 10.0f;
+    
+    [self addSubview:self.collectionView];
+}
+
+- (void)updateConstraints {
+    [super updateConstraints];
+    
+    NSDictionary *viewsDictionary = @{@"collectionView": self.collectionView};
+    
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[collectionView]-0-|" options:0 metrics:nil views:viewsDictionary]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[collectionView]-0-|" options:0 metrics:nil views:viewsDictionary]];
+}
+
+- (void)clear {
+    
+}
+
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.times.count;
+}
+
+- (DatePickerCollectionViewCell *)retrieveDatePickerCellWithCollectionView:(UICollectionView *)collectionView
+                                                              andIndexPath:(NSIndexPath *)indexPath {
+    DatePickerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kPickerCollectionViewCellIdentifier forIndexPath:indexPath];
+    
+    if (cell == nil) {
+        cell = [[DatePickerCollectionViewCell alloc] init];
+    }
+    
+    [cell setDayLabelText:[self.dateFormatter stringFromDate:[self.times objectAtIndex:indexPath.row]]];
+    
+    
+    
+//    NSInteger currentDay = [self.calendar component:NSCalendarUnitDay fromDate:[NSDate date]];
+//    NSInteger current = indexPath.row - self.offset + 1;
+//    NSInteger lastDay = [self.calendar component:NSCalendarUnitDay fromDate:self.lastDateOfCurrentCalendarView];
+//    
+//    BOOL enableCell = NO;
+//    
+//    if ([self.firstDateOfCurrentCalendarView compare:[NSDate date]] == NSOrderedDescending) {
+//        // Enable cell if the first date is greater than the current date.
+//        enableCell = YES;
+//    } else if (self.isCurrentMonth &&
+//               current >= currentDay) {
+//        enableCell = YES;
+//    }
+//    
+//    if (indexPath.row >= self.offset &&
+//        current <= lastDay) {
+//        [cell setDayLabelText:[NSString stringWithFormat:@"%ld", (long)current]];
+//        [cell setEnabled:enableCell];
+//        
+//        if (self.selectedIndex != nil &&
+//            [self.selectedIndex isEqualToIndexPath:indexPath]) {
+//            [cell setIsSelected:YES];
+//        } else if (self.selectedIndex == nil &&
+//                   self.isCurrentMonth &&
+//                   current == currentDay) {
+//            [cell setIsSelected:YES];
+//        } else {
+//            [cell setIsSelected:NO];
+//        }
+//    } else {
+//        [cell setDayLabelText:@""];
+//        [cell setIsSelected:NO];
+//    }
+    
+    return cell;
+}
+
+#pragma mark Collection view layout
+
+// Layout: Set cell size
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout*)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return kCollectionViewCellSize;
+}
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return kMinimumInteritemSpacing;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return kMinimumLineSpacing;
+}
+
+// Layout: Set Edges
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return kSectionInset;  // top, left, bottom, right
+}
 
 @end

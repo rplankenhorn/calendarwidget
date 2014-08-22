@@ -19,7 +19,7 @@
 
 @property (strong, nonatomic) NSDate *defaultDate;
 
-- (void)clearSelectedDate;
+- (void)clear;
 
 @end
 
