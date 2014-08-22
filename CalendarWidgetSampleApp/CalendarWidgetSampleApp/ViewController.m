@@ -21,14 +21,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-//    DatePickerView *datePickerView = [[[NSBundle mainBundle] loadNibNamed:@"DatePickerView" owner:nil options:nil] lastObject];
-    CalendarWidget *datePickerView = [[CalendarWidget alloc] init];
-    [self.view addSubview:datePickerView];
+    CalendarWidget *calendarWidget = [[CalendarWidget alloc] init];
+    [self.view addSubview:calendarWidget];
     
-    datePickerView.translatesAutoresizingMaskIntoConstraints = NO;
+    calendarWidget.translatesAutoresizingMaskIntoConstraints = NO;
     
-    [datePickerView centerInView:self.view];
-    [datePickerView constrainToSize:CGSizeMake(312, 408)];
+    [calendarWidget centerInView:self.view];
+    [calendarWidget constrainToSize:CGSizeMake(312, 444)];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BasePickerView.h"
 
 @protocol DatePickerViewDataSource;
 @protocol DatePickerViewDelegate;
 
-@interface DatePickerView : UIView
+@interface DatePickerView : BasePickerView
 
 @property (weak, nonatomic) id<DatePickerViewDataSource> dataSource;
 @property (weak, nonatomic) id<DatePickerViewDelegate> delegate;
@@ -30,5 +31,8 @@
 @end
 
 @protocol DatePickerViewDelegate <NSObject>
+
+@optional
+- (void)datePickerView:(DatePickerView *)datePickerView didSelectDate:(NSDate *)date;
 
 @end

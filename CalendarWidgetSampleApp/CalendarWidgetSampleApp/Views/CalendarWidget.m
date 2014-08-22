@@ -11,8 +11,7 @@
 #import "UIColor+Common.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIFont+FontType.h"
-
-static CGSize const kViewSize                                   = {316, 448.0f};
+#import "TimePickerView.h"
 
 @interface CalendarWidget ()
 @property (strong, nonatomic) UIView *containerView;
@@ -32,6 +31,7 @@ static CGSize const kViewSize                                   = {316, 448.0f};
     if (!_containerView) {
         _containerView = [[UIView alloc] init];
         _containerView.backgroundColor = [UIColor whiteColor];
+        _containerView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _containerView;
 }
@@ -45,6 +45,7 @@ static CGSize const kViewSize                                   = {316, 448.0f};
         [_dateTabButton setTitle:@"Wed, Dec 18" forState:UIControlStateHighlighted];
         [_dateTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateNormal];
         [_dateTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateHighlighted];
+        _dateTabButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _dateTabButton;
 }
@@ -58,6 +59,7 @@ static CGSize const kViewSize                                   = {316, 448.0f};
         [_timeTabButton setTitle:@"Select Time" forState:UIControlStateHighlighted];
         [_timeTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateNormal];
         [_timeTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateHighlighted];
+        _timeTabButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _timeTabButton;
 }
@@ -65,6 +67,7 @@ static CGSize const kViewSize                                   = {316, 448.0f};
 - (UIView *)pickerContainerView {
     if (!_pickerContainerView) {
         _pickerContainerView = [[UIView alloc] init];
+        _pickerContainerView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _pickerContainerView;
 }
@@ -72,7 +75,7 @@ static CGSize const kViewSize                                   = {316, 448.0f};
 - (DatePickerView *)datePickerView {
     if (!_datePickerView) {
         _datePickerView = [[DatePickerView alloc] init];
-//        _datePickerView = (DatePickerView *)[[[NSBundle mainBundle] loadNibNamed:@"DatePickerView" owner:nil options:nil] lastObject];
+        _datePickerView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _datePickerView;
 }
@@ -80,6 +83,7 @@ static CGSize const kViewSize                                   = {316, 448.0f};
 - (UIView *)timePickerView {
     if (!_timePickerView) {
         _timePickerView = [[UIView alloc] init];
+        _timePickerView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _timePickerView;
 }
@@ -87,6 +91,13 @@ static CGSize const kViewSize                                   = {316, 448.0f};
 - (UIButton *)clearAllButton {
     if (!_clearAllButton) {
         _clearAllButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _clearAllButton.backgroundColor = [UIColor headerBackgroundColor];
+        _clearAllButton.titleLabel.font = [UIFont titleFont];
+        [_clearAllButton setTitle:@"Clear All" forState:UIControlStateNormal];
+        [_clearAllButton setTitle:@"Clear All" forState:UIControlStateHighlighted];
+        [_clearAllButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateNormal];
+        [_clearAllButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateHighlighted];
+        _clearAllButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _clearAllButton;
 }
@@ -117,15 +128,12 @@ static CGSize const kViewSize                                   = {316, 448.0f};
 - (void)commonInit {
     self.backgroundColor = [UIColor headerBackgroundColor];
     
-//    CGRect frame = self.frame;
-//    frame = CGRectMake(frame.origin.x, frame.origin.y, kViewSize.width, kViewSize.height);
-//    self.frame = frame;
-    
     [self addSubview:self.containerView];
     
     [self.containerView addSubview:self.dateTabButton];
     [self.containerView addSubview:self.timeTabButton];
     [self.containerView addSubview:self.pickerContainerView];
+    [self.containerView addSubview:self.clearAllButton];
     
     [self.pickerContainerView addSubview:self.datePickerView];
 }
@@ -148,18 +156,16 @@ static CGSize const kViewSize                                   = {316, 448.0f};
 - (void)setupContainerViewConstraints {
     NSDictionary *viewsDictionary = @{@"dateTabButton": self.dateTabButton,
                                       @"timeTabButton": self.timeTabButton,
-                                      @"pickerContainerView": self.pickerContainerView};
+                                      @"pickerContainerView": self.pickerContainerView,
+                                      @"clearAllButton": self.clearAllButton};
     NSDictionary *metrics = @{@"margin": @2,
                               @"tabButtonHeight": @50};
     
-    self.dateTabButton.translatesAutoresizingMaskIntoConstraints = NO;
-    self.timeTabButton.translatesAutoresizingMaskIntoConstraints = NO;
-    self.pickerContainerView.translatesAutoresizingMaskIntoConstraints = NO;
-    
     [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-margin-[dateTabButton(==timeTabButton)]-margin-[timeTabButton]-margin-|" options:0 metrics:metrics views:viewsDictionary]];
     [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-margin-[pickerContainerView]-margin-|" options:0 metrics:metrics views:viewsDictionary]];
-    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-margin-[dateTabButton(==tabButtonHeight)]-margin-[pickerContainerView]-margin-|" options:0 metrics:metrics views:viewsDictionary]];
-    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-margin-[timeTabButton(==tabButtonHeight)]-margin-[pickerContainerView]-margin-|" options:0 metrics:metrics views:viewsDictionary]];
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-margin-[clearAllButton]-margin-|" options:0 metrics:metrics views:viewsDictionary]];
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-margin-[dateTabButton(==tabButtonHeight)]-margin-[pickerContainerView]-margin-[clearAllButton]-margin-|" options:0 metrics:metrics views:viewsDictionary]];
+    [self.containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-margin-[timeTabButton(==tabButtonHeight)]-margin-[pickerContainerView]-margin-[clearAllButton]-margin-|" options:0 metrics:metrics views:viewsDictionary]];
 }
 
 - (void)setupPickerContainerViewContraints {

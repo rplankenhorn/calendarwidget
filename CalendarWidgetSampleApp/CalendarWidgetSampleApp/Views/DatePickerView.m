@@ -44,8 +44,6 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 @property (strong, nonatomic) UIButton *leftChevronButton;
 @property (strong, nonatomic) UILabel *monthTitleLabel;
 @property (strong, nonatomic) UIButton *rightChevronButton;
-@property (strong, nonatomic) UICollectionView *collectionView;
-@property (strong, nonatomic) CalendarFlowLayout *calendarFlowLayout;
 
 // Local properties
 @property (strong, nonatomic) NSCalendar *calendar;
@@ -125,27 +123,6 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
         _rightChevronButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _rightChevronButton;
-}
-
-- (UICollectionView *)collectionView {
-    if (!_collectionView) {
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.calendarFlowLayout];
-        _collectionView.backgroundColor = [UIColor colorWithRed:197.0f/255.0f green:198/255.0f  blue:195.0f/255.0f  alpha:1.0f];
-        _collectionView.dataSource = self;
-        _collectionView.delegate = self;
-        _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-    }
-    return _collectionView;
-}
-
-- (CalendarFlowLayout *)calendarFlowLayout {
-    if (!_calendarFlowLayout) {
-        _calendarFlowLayout = [[CalendarFlowLayout alloc] init];
-        [_calendarFlowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-        _calendarFlowLayout.minimumInteritemSpacing = 0;
-        _calendarFlowLayout.minimumLineSpacing = 0;
-    }
-    return _calendarFlowLayout;
 }
 
 - (NSCalendar *)calendar {
@@ -356,10 +333,14 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     [self.collectionView reloadData];
 }
 
+- (void)clearSelectedDate {
+    self.selectedIndex = nil;
+    [self refreshCalendar];
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-//    return [self.calendar component:NSCalendarUnitDay fromDate:self.lastDateOfCurrentCalendarView] + self.offset + self.endPadding;
     return self.calendar.weekdaySymbols.count * 6;
 }
 
