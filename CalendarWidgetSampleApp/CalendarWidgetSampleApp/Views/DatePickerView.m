@@ -9,7 +9,6 @@
 #import "DatePickerView.h"
 #import "DatePickerCollectionViewCell.h"
 #import "CalendarFlowLayout.h"
-#import "NSIndexPath+Utils.h"
 #import "NSDate+Reporting.h"
 #import "UIView+AutoLayout.h"
 #import "UIColor+Common.h"
@@ -282,23 +281,8 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 }
 
 - (void)refreshCalendar {
-    if (self.selectedIndex != nil &&
-        self.selectedIndex.row != INT_MAX &&
-        self.selectedIndex.section != INT_MAX) {
-        DatePickerCollectionViewCell *cell = [self retrieveDatePickerCellWithCollectionView:self.collectionView andIndexPath:self.selectedIndex];
-        [cell setSelected:NO];
-        self.selectedIndex = nil;
-    }
-    
+    [super refreshCalendar];
     self.monthTitleLabel.text = [[self.dateFormatter stringFromDate:self.firstDateOfCurrentCalendarView] capitalizedString];
-    [self.collectionView reloadData];
-}
-
-- (void)clear {
-    // Need to set selectedIndex to a value that isn't nil so that when we refresh the collection view, we don't
-    // automatically select the current date.
-    self.selectedIndex = [NSIndexPath indexPathForRow:INT_MAX inSection:INT_MAX];
-    [self refreshCalendar];
 }
 
 #pragma mark - UICollectionViewDataSource

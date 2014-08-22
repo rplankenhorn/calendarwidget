@@ -45,8 +45,8 @@
         _dateTabButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _dateTabButton.backgroundColor = [UIColor headerBackgroundColor];
         _dateTabButton.titleLabel.font = [UIFont titleFont];
-        [_dateTabButton setTitle:@"Wed, Dec 18" forState:UIControlStateNormal];
-        [_dateTabButton setTitle:@"Wed, Dec 18" forState:UIControlStateHighlighted];
+        [_dateTabButton setTitle:@"Select Date" forState:UIControlStateNormal];
+        [_dateTabButton setTitle:@"Select Date" forState:UIControlStateHighlighted];
         [_dateTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateNormal];
         [_dateTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateHighlighted];
         [_dateTabButton addTarget:self action:@selector(dateTabTapped:) forControlEvents:UIControlEventTouchUpInside];

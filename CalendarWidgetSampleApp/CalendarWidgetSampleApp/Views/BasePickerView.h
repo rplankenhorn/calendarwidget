@@ -9,6 +9,7 @@
 #import "CalendarFlowLayout.h"
 #import "DatePickerCollectionViewCell.h"
 #import "UIColor+Common.h"
+#import "NSIndexPath+Utils.h"
 
 static NSString * const kPickerCollectionViewCellIdentifier = @"DatePickerCollectionViewCellIdentifier";
 static NSString * const kPickerCollectionViewCellXib        = @"DatePickerCollectionViewCell";
@@ -23,6 +24,7 @@ static NSString * const kPickerCollectionViewCellXib        = @"DatePickerCollec
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
 - (void)commonInit;
+- (void)refreshCalendar;
 - (void)clear;
 
 @end

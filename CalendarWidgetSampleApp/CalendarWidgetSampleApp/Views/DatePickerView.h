@@ -17,9 +17,7 @@
 @property (weak, nonatomic) id<DatePickerViewDataSource> dataSource;
 @property (weak, nonatomic) id<DatePickerViewDelegate> delegate;
 
-@property (strong, nonatomic) NSDate *defaultDate;
-
-- (void)clear;
+@property (strong, nonatomic) NSDate *currentDate;
 
 @end
 

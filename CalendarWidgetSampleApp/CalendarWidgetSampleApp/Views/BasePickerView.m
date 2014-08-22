@@ -74,8 +74,23 @@
 
 #pragma mark - Actions
 
+- (void)refreshCalendar {
+    if (self.selectedIndex != nil &&
+        self.selectedIndex.row != INT_MAX &&
+        self.selectedIndex.section != INT_MAX) {
+        DatePickerCollectionViewCell *cell = [self retrieveDatePickerCellWithCollectionView:self.collectionView andIndexPath:self.selectedIndex];
+        [cell setSelected:NO];
+        self.selectedIndex = nil;
+    }
+    
+    [self.collectionView reloadData];
+}
+
 - (void)clear {
-    NSAssert(NO, @"clear must be overridden in the child class!");
+    // Need to set selectedIndex to a value that isn't nil so that when we refresh the collection view, we don't
+    // automatically select the current date.
+    self.selectedIndex = [NSIndexPath indexPathForRow:INT_MAX inSection:INT_MAX];
+    [self refreshCalendar];
 }
 
 #pragma mark - UICollectionViewDataSource

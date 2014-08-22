@@ -97,10 +97,6 @@ static CGFloat const kSecondsInHour                             = 3600.0f;
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[collectionView]-0-|" options:0 metrics:nil views:viewsDictionary]];
 }
 
-- (void)clear {
-    
-}
-
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -115,43 +111,15 @@ static CGFloat const kSecondsInHour                             = 3600.0f;
         cell = [[DatePickerCollectionViewCell alloc] init];
     }
     
+    cell.enabled = YES;
     [cell setDayLabelText:[self.dateFormatter stringFromDate:[self.times objectAtIndex:indexPath.row]]];
     
-    
-    
-//    NSInteger currentDay = [self.calendar component:NSCalendarUnitDay fromDate:[NSDate date]];
-//    NSInteger current = indexPath.row - self.offset + 1;
-//    NSInteger lastDay = [self.calendar component:NSCalendarUnitDay fromDate:self.lastDateOfCurrentCalendarView];
-//    
-//    BOOL enableCell = NO;
-//    
-//    if ([self.firstDateOfCurrentCalendarView compare:[NSDate date]] == NSOrderedDescending) {
-//        // Enable cell if the first date is greater than the current date.
-//        enableCell = YES;
-//    } else if (self.isCurrentMonth &&
-//               current >= currentDay) {
-//        enableCell = YES;
-//    }
-//    
-//    if (indexPath.row >= self.offset &&
-//        current <= lastDay) {
-//        [cell setDayLabelText:[NSString stringWithFormat:@"%ld", (long)current]];
-//        [cell setEnabled:enableCell];
-//        
-//        if (self.selectedIndex != nil &&
-//            [self.selectedIndex isEqualToIndexPath:indexPath]) {
-//            [cell setIsSelected:YES];
-//        } else if (self.selectedIndex == nil &&
-//                   self.isCurrentMonth &&
-//                   current == currentDay) {
-//            [cell setIsSelected:YES];
-//        } else {
-//            [cell setIsSelected:NO];
-//        }
-//    } else {
-//        [cell setDayLabelText:@""];
-//        [cell setIsSelected:NO];
-//    }
+    if (self.selectedIndex != nil &&
+        [self.selectedIndex isEqualToIndexPath:indexPath]) {
+        [cell setIsSelected:YES];
+    } else {
+        [cell setIsSelected:NO];
+    }
     
     return cell;
 }
