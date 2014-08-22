@@ -31,6 +31,11 @@
     return _calendarFlowLayout;
 }
 
+- (NSArray *)items {
+    NSAssert(NO, @"items must be overridden in the child class!");
+    return nil;
+}
+
 - (NSCalendar *)calendar {
     if (!_calendar) {
         _calendar = [NSCalendar currentCalendar];
@@ -82,7 +87,7 @@
         [cell setSelected:NO];
         self.selectedIndex = nil;
     }
-    
+
     [self.collectionView reloadData];
 }
 
@@ -114,17 +119,6 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
-}
-
-#pragma mark - UICollectionViewDelegate
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    DatePickerCollectionViewCell *cell = [self retrieveDatePickerCellWithCollectionView:collectionView andIndexPath:indexPath];
-    if (cell.enabled &&
-        !cell.booked) {
-        self.selectedIndex = indexPath;
-        [self.collectionView reloadData];
-    }
 }
 
 @end

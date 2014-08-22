@@ -336,6 +336,21 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     return cell;
 }
 
+#pragma mark - UICollectionViewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    DatePickerCollectionViewCell *cell = [self retrieveDatePickerCellWithCollectionView:collectionView andIndexPath:indexPath];
+    if (cell.enabled &&
+        !cell.booked) {
+        self.selectedIndex = indexPath;
+        [self.collectionView reloadData];
+        
+        if ([self.delegate respondsToSelector:@selector(pickerView:didSelectDate:)]) {
+            [self.delegate pickerView:self didSelectDate:nil];
+        }
+    }
+}
+
 #pragma mark Collection view layout
 
 // Layout: Set cell size

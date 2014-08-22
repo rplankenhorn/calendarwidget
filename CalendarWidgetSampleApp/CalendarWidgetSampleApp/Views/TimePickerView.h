@@ -32,6 +32,6 @@ typedef NS_ENUM(NSInteger, TimePickerTimeInterval) {
 
 @end
 
-@protocol TimePickerViewDelegate <NSObject>
+@protocol TimePickerViewDelegate <BasePickerDelegate>
 
 @end

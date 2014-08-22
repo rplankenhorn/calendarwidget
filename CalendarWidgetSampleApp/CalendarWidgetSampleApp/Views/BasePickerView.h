@@ -14,6 +14,8 @@
 static NSString * const kPickerCollectionViewCellIdentifier = @"DatePickerCollectionViewCellIdentifier";
 static NSString * const kPickerCollectionViewCellXib        = @"DatePickerCollectionViewCell";
 
+@protocol BasePickerDelegate;
+
 @interface BasePickerView : UIView <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -26,5 +28,12 @@ static NSString * const kPickerCollectionViewCellXib        = @"DatePickerCollec
 - (void)commonInit;
 - (void)refreshCalendar;
 - (void)clear;
+
+@end
+
+@protocol BasePickerDelegate <NSObject>
+
+@optional
+- (void)pickerView:(BasePickerView *)pickerView didSelectDate:(NSDate *)date;
 
 @end
