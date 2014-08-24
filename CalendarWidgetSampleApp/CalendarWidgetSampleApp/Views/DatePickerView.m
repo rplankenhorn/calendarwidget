@@ -346,7 +346,17 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
         [self.collectionView reloadData];
         
         if ([self.delegate respondsToSelector:@selector(pickerView:didSelectDate:)]) {
-            [self.delegate pickerView:self didSelectDate:nil];
+            NSInteger month = [self.calendar component:NSCalendarUnitMonth fromDate:self.firstDateOfCurrentCalendarView];
+            NSInteger year = [self.calendar component:NSCalendarUnitYear fromDate:self.firstDateOfCurrentCalendarView];
+            NSInteger day = indexPath.row - self.offset + 1;
+            
+            NSDateComponents *components = [[NSDateComponents alloc] init];
+            [components setMonth:month];
+            [components setDay:day];
+            [components setYear:year];
+            
+            NSDate *selectedDate = [self.calendar dateFromComponents:components];
+            [self.delegate pickerView:self didSelectDate:selectedDate];
         }
     }
 }
