@@ -13,7 +13,7 @@
 #import "UIFont+FontType.h"
 #import "TimePickerView.h"
 
-@interface CalendarWidget ()
+@interface CalendarWidget () <DatePickerViewDataSource, DatePickerViewDelegate, TimePickerViewDataSource, TimePickerViewDelegate>
 
 @property (strong, nonatomic) UIView *containerView;
 @property (strong, nonatomic) UIButton *dateTabButton;
@@ -24,6 +24,8 @@
 @property (strong, nonatomic) UIButton *clearAllButton;
 
 @property (strong, nonatomic) BasePickerView *selectedPicker;
+
+@property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
 @end
 
@@ -81,6 +83,8 @@
 - (DatePickerView *)datePickerView {
     if (!_datePickerView) {
         _datePickerView = [[DatePickerView alloc] init];
+        _datePickerView.dataSource = self;
+        _datePickerView.delegate = self;
         _datePickerView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _datePickerView;
@@ -89,6 +93,8 @@
 - (TimePickerView *)timePickerView {
     if (!_timePickerView) {
         _timePickerView = [[TimePickerView alloc] init];
+        _timePickerView.dataSource = self;
+        _timePickerView.delegate = self;
         _timePickerView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _timePickerView;
@@ -105,6 +111,13 @@
         _clearAllButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _clearAllButton;
+}
+
+- (NSDateFormatter *)dateFormatter {
+    if (!_dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc] init];
+    }
+    return _dateFormatter;
 }
 
 #pragma mark - Init
@@ -189,6 +202,8 @@
 - (void)clearAllButtonPressed:(id)sender {
     [self.datePickerView clear];
     [self.timePickerView clear];
+    [self.dateTabButton setTitle:@"Select Date" forState:UIControlStateNormal];
+    [self.timeTabButton setTitle:@"Select Time" forState:UIControlStateNormal];
 }
 
 - (void)dateTabTapped:(id)sender {
@@ -221,6 +236,22 @@
     } else {
         button.backgroundColor = [UIColor whiteColor];
     }
+}
+
+#pragma mark - DatePickerViewDelegate
+
+- (void)datePickerView:(DatePickerView *)datePickerView didSelectDate:(NSDate *)date {
+    self.dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+    self.dateFormatter.timeStyle = NSDateFormatterNoStyle;
+    [self.dateTabButton setTitle:[self.dateFormatter stringFromDate:date] forState:UIControlStateNormal];
+}
+
+#pragma mark - TimePickerViewDelegate
+
+- (void)timePickerView:(TimePickerView *)timePickerView didSelectDate:(NSDate *)date {
+    self.dateFormatter.dateStyle = NSDateFormatterNoStyle;
+    self.dateFormatter.timeStyle = NSDateFormatterShortStyle;
+    [self.timeTabButton setTitle:[self.dateFormatter stringFromDate:date] forState:UIControlStateNormal];
 }
 
 @end

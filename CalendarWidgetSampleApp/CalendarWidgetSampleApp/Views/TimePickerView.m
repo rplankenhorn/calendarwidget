@@ -133,8 +133,8 @@ static CGFloat const kSecondsInHour                             = 3600.0f;
         self.selectedIndex = indexPath;
         [self.collectionView reloadData];
         
-        if ([self.delegate respondsToSelector:@selector(pickerView:didSelectDate:)]) {
-            [self.delegate pickerView:self didSelectDate:nil];
+        if ([self.delegate respondsToSelector:@selector(timePickerView:didSelectDate:)]) {
+            [self.delegate timePickerView:self didSelectDate:[self.times objectAtIndex:indexPath.row]];
         }
     }
 }

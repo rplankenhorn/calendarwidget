@@ -28,6 +28,9 @@
 
 @end
 
-@protocol DatePickerViewDelegate <BasePickerDelegate>
+@protocol DatePickerViewDelegate <NSObject>
+
+@optional
+- (void)datePickerView:(DatePickerView *)datePickerView didSelectDate:(NSDate *)date;
 
 @end

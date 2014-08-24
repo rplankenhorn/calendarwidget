@@ -325,6 +325,9 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
                    self.isCurrentMonth &&
                    current == currentDay) {
             [cell setIsSelected:YES];
+            if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectDate:)]) {
+                [self.delegate datePickerView:self didSelectDate:[self calculateCurrentMonthFromIndexPath:indexPath]];
+            }
         } else {
             [cell setIsSelected:NO];
         }
@@ -336,6 +339,19 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     return cell;
 }
 
+- (NSDate *)calculateCurrentMonthFromIndexPath:(NSIndexPath *)indexPath {
+    NSInteger month = [self.calendar component:NSCalendarUnitMonth fromDate:self.firstDateOfCurrentCalendarView];
+    NSInteger year = [self.calendar component:NSCalendarUnitYear fromDate:self.firstDateOfCurrentCalendarView];
+    NSInteger day = indexPath.row - self.offset + 1;
+    
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    [components setMonth:month];
+    [components setDay:day];
+    [components setYear:year];
+    
+    return [self.calendar dateFromComponents:components];
+}
+
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -345,18 +361,8 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
         self.selectedIndex = indexPath;
         [self.collectionView reloadData];
         
-        if ([self.delegate respondsToSelector:@selector(pickerView:didSelectDate:)]) {
-            NSInteger month = [self.calendar component:NSCalendarUnitMonth fromDate:self.firstDateOfCurrentCalendarView];
-            NSInteger year = [self.calendar component:NSCalendarUnitYear fromDate:self.firstDateOfCurrentCalendarView];
-            NSInteger day = indexPath.row - self.offset + 1;
-            
-            NSDateComponents *components = [[NSDateComponents alloc] init];
-            [components setMonth:month];
-            [components setDay:day];
-            [components setYear:year];
-            
-            NSDate *selectedDate = [self.calendar dateFromComponents:components];
-            [self.delegate pickerView:self didSelectDate:selectedDate];
+        if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectDate:)]) {
+            [self.delegate datePickerView:self didSelectDate:[self calculateCurrentMonthFromIndexPath:indexPath]];
         }
     }
 }
