@@ -12,6 +12,7 @@
 #import "NSDate+Reporting.h"
 #import "UIView+AutoLayout.h"
 #import "UIColor+Common.h"
+#import "UIFont+FontType.h"
 
 static CGFloat const kCollectionViewHeightBuffer                = 7.0f;
 static CGFloat const kViewWidth                                 = 316.0f;
@@ -75,8 +76,8 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
         
         for (int i=0; i<self.calendar.weekdaySymbols.count; i++) {
             UILabel *dayLabel = [[UILabel alloc] init];
-            dayLabel.font = [UIFont fontWithName:kDefaultFontBold size:17.0f];
-            dayLabel.textColor = [UIColor colorWithRed:201.0f/255.0f green:201.0f/255.0f blue:201.0f/255.0f alpha:1.0f];
+            dayLabel.font = [UIFont titleFont];
+            dayLabel.textColor = [UIColor dateDisabledColor];
             dayLabel.text = self.daysOfWeekPrefixes[i];
             dayLabel.textAlignment = NSTextAlignmentCenter;
             dayLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -100,10 +101,9 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 - (UILabel *)monthTitleLabel {
     if (!_monthTitleLabel) {
         _monthTitleLabel = [[UILabel alloc] init];
-        _monthTitleLabel.font = [UIFont fontWithName:kDefaultFontBold size:17.0f];
-        _monthTitleLabel.textColor = [UIColor colorWithRed:87.0f/255.0f green:97.0f/255.0f blue:102.0f/255.0f alpha:1.0f];
+        _monthTitleLabel.font = [UIFont titleFont];
+        _monthTitleLabel.textColor = [UIColor dateEnabledColor];
         _monthTitleLabel.textAlignment = NSTextAlignmentCenter;
-        _monthTitleLabel.text = @"December 2013";
         _monthTitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _monthTitleLabel;
@@ -225,7 +225,6 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     
     [self addSubview:self.headerView];
     [self addSubview:self.collectionView];
-//    [self addSubview:self.activityIndicator];
     
     self.headerView.translatesAutoresizingMaskIntoConstraints = NO;
     self.leftChevronButton.translatesAutoresizingMaskIntoConstraints = NO;
@@ -364,22 +363,34 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     
     BOOL enableCell = NO;
     
-    if (self.availableDatesAsDictionary) {
-        enableCell = [self.availableDatesAsDictionary objectForKey:@(current)] != nil;
-    } else {
-        if ([self.firstDateOfCurrentCalendarView compare:[NSDate date]] == NSOrderedDescending) {
-            // Enable cell if the first date is greater than the current date.
-            enableCell = YES;
-        } else if (self.isCurrentMonth &&
-                   current >= currentDay) {
-            enableCell = YES;
-        }
+//    if (self.availableDatesAsDictionary) {
+//        enableCell = [self.availableDatesAsDictionary objectForKey:@(current)] != nil;
+//    } else {
+//        if ([self.firstDateOfCurrentCalendarView compare:[NSDate date]] == NSOrderedDescending) {
+//            // Enable cell if the first date is greater than the current date.
+//            enableCell = YES;
+//        } else if (self.isCurrentMonth &&
+//                   current >= currentDay) {
+//            enableCell = YES;
+//        }
+//    }
+    
+    if ([self.firstDateOfCurrentCalendarView compare:[NSDate date]] == NSOrderedDescending) {
+        // Enable cell if the first date is greater than the current date.
+        enableCell = YES;
+    } else if (self.isCurrentMonth &&
+               current >= currentDay) {
+        enableCell = YES;
     }
     
     if (indexPath.row >= self.offset &&
         current <= lastDay) {
         [cell setDayLabelText:[NSString stringWithFormat:@"%ld", (long)current]];
         [cell setEnabled:enableCell];
+        
+        if (enableCell) {
+            [cell setBooked:[self.availableDatesAsDictionary objectForKey:@(current)] != nil];
+        }
         
         if (self.selectedIndex != nil &&
             [self.selectedIndex isEqualToIndexPath:indexPath]) {
