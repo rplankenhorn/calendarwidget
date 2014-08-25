@@ -128,6 +128,16 @@
     }
 }
 
+#pragma mark - Setters
+
+- (void)setSelectedDate:(NSDate *)selectedDate {
+    _selectedDate = selectedDate;
+    
+    if (!_selectedDate) {
+        [self clearAllButtonPressed:nil];
+    }
+}
+
 #pragma mark - Init
 
 - (instancetype)init {
