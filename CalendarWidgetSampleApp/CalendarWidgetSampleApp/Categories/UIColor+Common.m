@@ -46,4 +46,8 @@
     return [UIColor colorWithRed:201.0f/255.0f green:201.0f/255.0f blue:201.0f/255.0f alpha:1.0f];
 }
 
++ (UIColor *)pickerBackgroundColor {
+    return [UIColor colorWithRed:197.0f/255.0f green:198/255.0f  blue:195.0f/255.0f alpha:1.0f];
+}
+
 @end

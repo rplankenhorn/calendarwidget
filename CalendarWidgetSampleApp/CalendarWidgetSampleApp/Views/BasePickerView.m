@@ -13,7 +13,7 @@
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.calendarFlowLayout];
-        _collectionView.backgroundColor = [UIColor colorWithRed:197.0f/255.0f green:198/255.0f  blue:195.0f/255.0f  alpha:1.0f];
+        _collectionView.backgroundColor = [UIColor pickerBackgroundColor];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -29,11 +29,6 @@
         _calendarFlowLayout.minimumLineSpacing = 0;
     }
     return _calendarFlowLayout;
-}
-
-- (NSArray *)items {
-    NSAssert(NO, @"items must be overridden in the child class!");
-    return nil;
 }
 
 - (NSCalendar *)calendar {

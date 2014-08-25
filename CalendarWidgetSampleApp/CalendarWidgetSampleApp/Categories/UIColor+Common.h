@@ -12,6 +12,7 @@
 
 + (UIColor *)calendarWidgetBackground;
 + (UIColor *)titleLabelColor;
++ (UIColor *)pickerBackgroundColor;
 
 // DatePickerCollectionViewCell Colors
 + (UIColor *)dateSlashColor;
