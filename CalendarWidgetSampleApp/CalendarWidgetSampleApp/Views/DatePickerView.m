@@ -183,6 +183,12 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
                     [dict setObject:date forKey:@(day)];
                 }
                 
+                NSInteger currentDay = [self.calendar component:NSCalendarUnitDay fromDate:[NSDate date]];
+                
+                if (![dict objectForKey:@(currentDay)]) {
+                    self.selectedIndex = [NSIndexPath indexPathForRow:INT_MAX inSection:INT_MAX];
+                }
+                
                 _availableDatesAsDictionary = [NSDictionary dictionaryWithDictionary:dict];
             }
         }
