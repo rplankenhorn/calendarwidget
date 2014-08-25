@@ -20,6 +20,7 @@ static CGSize const kDayLabelSize                               = {15.0f, 21.0f}
 static CGSize const kChevronSize                                = {26.0f, 27.0f};
 static CGFloat const kChevronSpacing                            = 10.0f;
 static CGFloat const kMonthTitleLabelHeight                     = 21.0f;
+static NSInteger const kRowsInCalendar                          = 6;
 
 static UIEdgeInsets const kSectionInset                         = {1.0f, 1.0f, 1.0f, 0.0f};
 static CGSize const kCollectionViewCellSize                     = {40.0f, 40.0f};
@@ -40,6 +41,7 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 @property (strong, nonatomic) UIButton *leftChevronButton;
 @property (strong, nonatomic) UILabel *monthTitleLabel;
 @property (strong, nonatomic) UIButton *rightChevronButton;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 
 // Local properties
 @property (assign, nonatomic, readonly) NSInteger offset;
@@ -116,6 +118,14 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
         _rightChevronButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _rightChevronButton;
+}
+
+- (UIActivityIndicatorView *)activityIndicator {
+    if (!_activityIndicator) {
+        _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _activityIndicator.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _activityIndicator;
 }
 
 - (NSInteger)offset {
@@ -206,6 +216,7 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     [self.headerView addSubview:self.leftChevronButton];
     [self.headerView addSubview:self.monthTitleLabel];
     [self.headerView addSubview:self.rightChevronButton];
+    [self.headerView addSubview:self.activityIndicator];
     
     for (UILabel *label in self.dayLabels) {
         label.translatesAutoresizingMaskIntoConstraints = NO;
@@ -213,8 +224,8 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     }
     
     [self addSubview:self.headerView];
-    
     [self addSubview:self.collectionView];
+//    [self addSubview:self.activityIndicator];
     
     self.headerView.translatesAutoresizingMaskIntoConstraints = NO;
     self.leftChevronButton.translatesAutoresizingMaskIntoConstraints = NO;
@@ -259,7 +270,8 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     NSDictionary *viewsDictionary = @{@"headerView": self.headerView,
                                       @"leftChevronButton": self.leftChevronButton,
                                       @"monthTitleLabel": self.monthTitleLabel,
-                                      @"rightChevronButton": self.rightChevronButton};
+                                      @"rightChevronButton": self.rightChevronButton,
+                                      @"activityIndicator": self.activityIndicator};
     
     NSDictionary *metrics = @{@"headerViewHeight": @(kHeaderViewHeight),
                               @"dayLabelWidth": @(kDayLabelSize.width),
@@ -283,6 +295,11 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     [self.headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[rightChevronButton(==chevronWidth)]-chevronSpacing-|" options:0 metrics:metrics views:viewsDictionary]];
     [self.headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[rightChevronButton(==chevronHeight)]" options:0 metrics:metrics views:viewsDictionary]];
     [self.rightChevronButton centerInContainerOnAxis:NSLayoutAttributeCenterY];
+    
+    // Activity Indicator
+    [self.activityIndicator centerInContainerOnAxis:NSLayoutAttributeCenterX];
+    [self.headerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[activityIndicator]" options:0 metrics:metrics views:viewsDictionary]];
+    [self.activityIndicator constrainToSize:CGSizeMake(37.0f, 37.0f)];
     
     // Add constraints for days of week subviews
     [self.headerView spaceViews:self.dayLabels onAxis:UILayoutConstraintAxisHorizontal withSpacing:-4.0f alignmentOptions:0];
@@ -313,12 +330,24 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     [super refreshCalendar];
     self.monthTitleLabel.text = [[self.dateFormatter stringFromDate:self.firstDateOfCurrentCalendarView] capitalizedString];
     self.availableDatesAsDictionary = nil;
+    [self showProgressSpinner];
+    [self performSelector:@selector(hideProgressSpinner) withObject:nil afterDelay:0.5f];
+}
+
+- (void)showProgressSpinner {
+    [self.activityIndicator setHidden:NO];
+    [self.activityIndicator startAnimating];
+}
+
+- (void)hideProgressSpinner {
+    [self.activityIndicator stopAnimating];
+    [self.activityIndicator setHidden:YES];
 }
 
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.calendar.weekdaySymbols.count * 6;
+    return self.calendar.weekdaySymbols.count * kRowsInCalendar;
 }
 
 - (DatePickerCollectionViewCell *)retrieveDatePickerCellWithCollectionView:(UICollectionView *)collectionView
