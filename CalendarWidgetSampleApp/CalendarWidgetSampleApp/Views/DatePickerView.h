@@ -17,6 +17,14 @@
 @property (weak, nonatomic) id<DatePickerViewDataSource> dataSource;
 @property (weak, nonatomic) id<DatePickerViewDelegate> delegate;
 
+/**
+ *  The first date of the current calendar view.
+ */
+@property (strong, nonatomic) NSDate *firstDateOfCurrentCalendarView;
+
+/**
+ *  The currently selected date.
+ */
 @property (strong, nonatomic) NSDate *currentDate;
 
 @end

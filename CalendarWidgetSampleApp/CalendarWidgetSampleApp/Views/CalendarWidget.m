@@ -27,6 +27,8 @@
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
+@property (strong, nonatomic, readonly) NSArray *availableDates;
+
 @end
 
 @implementation CalendarWidget
@@ -48,7 +50,6 @@
         _dateTabButton.backgroundColor = [UIColor headerBackgroundColor];
         _dateTabButton.titleLabel.font = [UIFont titleFont];
         [_dateTabButton setTitle:@"Select Date" forState:UIControlStateNormal];
-        [_dateTabButton setTitle:@"Select Date" forState:UIControlStateHighlighted];
         [_dateTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateNormal];
         [_dateTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateHighlighted];
         [_dateTabButton addTarget:self action:@selector(dateTabTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -63,7 +64,6 @@
         _timeTabButton.backgroundColor = [UIColor whiteColor];
         _timeTabButton.titleLabel.font = [UIFont titleFont];
         [_timeTabButton setTitle:@"Select Time" forState:UIControlStateNormal];
-        [_timeTabButton setTitle:@"Select Time" forState:UIControlStateHighlighted];
         [_timeTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateNormal];
         [_timeTabButton setTitleColor:[UIColor titleLabelColor] forState:UIControlStateHighlighted];
         [_timeTabButton addTarget:self action:@selector(timeTabTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -118,6 +118,14 @@
         _dateFormatter = [[NSDateFormatter alloc] init];
     }
     return _dateFormatter;
+}
+
+- (NSArray *)availableDates {
+    if ([self.dataSource respondsToSelector:@selector(availableDatesForCalendarWidget:)]) {
+        return [self.dataSource availableDatesForCalendarWidget:self];
+    } else {
+        return nil;
+    }
 }
 
 #pragma mark - Init
@@ -238,12 +246,58 @@
     }
 }
 
+#pragma mark - DatePickerViewDataSource
+
+- (NSArray *)datePickerView:(DatePickerView *)datePickerView availableDatesForMonthOfDate:(NSDate *)date {
+    if (self.availableDates) {
+        NSInteger selectedMonth = [self.datePickerView.calendar component:NSCalendarUnitMonth fromDate:date];
+        NSInteger selectedYear = [self.datePickerView.calendar component:NSCalendarUnitYear fromDate:date];
+        NSMutableArray *dates = [[NSMutableArray alloc] init];
+        for (NSDate *d in self.availableDates) {
+            NSInteger month = [self.datePickerView.calendar component:NSCalendarUnitMonth fromDate:d];
+            NSInteger year = [self.datePickerView.calendar component:NSCalendarUnitYear fromDate:d];
+            if (month == selectedMonth &&
+                year == selectedYear) {
+                [dates addObject:d];
+            }
+        }
+        return [NSArray arrayWithArray:dates];
+    } else {
+        return nil;
+    }
+}
+
 #pragma mark - DatePickerViewDelegate
 
 - (void)datePickerView:(DatePickerView *)datePickerView didSelectDate:(NSDate *)date {
     self.dateFormatter.dateStyle = NSDateFormatterMediumStyle;
     self.dateFormatter.timeStyle = NSDateFormatterNoStyle;
     [self.dateTabButton setTitle:[self.dateFormatter stringFromDate:date] forState:UIControlStateNormal];
+}
+
+#pragma mark - TimePickerViewDataSource
+
+- (NSArray *)availableTimesForTimePickerView:(TimePickerView *)timePickerView {
+    if (self.selectedDate &&
+        self.availableDates) {
+        NSInteger selectedMonth = [self.datePickerView.calendar component:NSCalendarUnitMonth fromDate:self.selectedDate];
+        NSInteger selectedDay = [self.datePickerView.calendar component:NSCalendarUnitDay fromDate:self.selectedDate];
+        NSInteger selectedYear = [self.datePickerView.calendar component:NSCalendarUnitYear fromDate:self.selectedDate];
+        NSMutableArray *times = [[NSMutableArray alloc] init];
+        for (NSDate *date in self.availableDates) {
+            NSInteger month = [self.datePickerView.calendar component:NSCalendarUnitMonth fromDate:date];
+            NSInteger day = [self.datePickerView.calendar component:NSCalendarUnitDay fromDate:date];
+            NSInteger year = [self.datePickerView.calendar component:NSCalendarUnitYear fromDate:date];
+            if (month == selectedMonth &&
+                day == selectedDay &&
+                year == selectedYear) {
+                [times addObject:date];
+            }
+        }
+        return [NSArray arrayWithArray:times];
+    } else {
+        return nil;
+    }
 }
 
 #pragma mark - TimePickerViewDelegate

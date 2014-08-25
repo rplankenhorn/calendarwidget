@@ -28,7 +28,8 @@ static CGFloat const kSecondsInHour                             = 3600.0f;
 
 - (NSArray *)times {
     if (!_times) {
-        if ([self.dataSource respondsToSelector:@selector(availableTimesForTimePickerView:)]) {
+        if ([self.dataSource respondsToSelector:@selector(availableTimesForTimePickerView:)] &&
+            [self.dataSource availableTimesForTimePickerView:self] != nil) {
             _times = [self.dataSource availableTimesForTimePickerView:self];
         } else {
             NSMutableArray *mutTimes = [[NSMutableArray alloc] init];

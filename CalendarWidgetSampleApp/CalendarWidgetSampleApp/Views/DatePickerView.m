@@ -46,10 +46,11 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 @property (assign, nonatomic, readonly) NSInteger endPadding;
 @property (strong, nonatomic, readonly) NSArray *daysOfWeekPrefixes;
 
-@property (strong, nonatomic) NSDate *firstDateOfCurrentCalendarView;
 @property (strong, nonatomic, readonly) NSDate *lastDateOfCurrentCalendarView;
 
 @property (assign, nonatomic, readonly) BOOL isCurrentMonth;
+
+@property (strong, nonatomic) NSDictionary *availableDatesAsDictionary;
 
 @end
 
@@ -165,6 +166,28 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     }
     
     return NO;
+}
+
+- (NSDictionary *)availableDatesAsDictionary {
+    if (!_availableDatesAsDictionary) {
+        if ([self.dataSource respondsToSelector:@selector(datePickerView:availableDatesForMonthOfDate:)]) {
+            NSArray *array = [self.dataSource datePickerView:self
+                                availableDatesForMonthOfDate:self.firstDateOfCurrentCalendarView];
+            
+            if (array) {
+                NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+                
+                for (NSDate *date in [self.dataSource datePickerView:self
+                                        availableDatesForMonthOfDate:self.firstDateOfCurrentCalendarView]) {
+                    NSInteger day = [self.calendar component:NSCalendarUnitDay fromDate:date];
+                    [dict setObject:date forKey:@(day)];
+                }
+                
+                _availableDatesAsDictionary = [NSDictionary dictionaryWithDictionary:dict];
+            }
+        }
+    }
+    return _availableDatesAsDictionary;
 }
 
 #pragma mark - Init
@@ -283,6 +306,7 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 - (void)refreshCalendar {
     [super refreshCalendar];
     self.monthTitleLabel.text = [[self.dateFormatter stringFromDate:self.firstDateOfCurrentCalendarView] capitalizedString];
+    self.availableDatesAsDictionary = nil;
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -305,12 +329,16 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     
     BOOL enableCell = NO;
     
-    if ([self.firstDateOfCurrentCalendarView compare:[NSDate date]] == NSOrderedDescending) {
-        // Enable cell if the first date is greater than the current date.
-        enableCell = YES;
-    } else if (self.isCurrentMonth &&
-               current >= currentDay) {
-        enableCell = YES;
+    if (self.availableDatesAsDictionary) {
+        enableCell = [self.availableDatesAsDictionary objectForKey:@(current)] != nil;
+    } else {
+        if ([self.firstDateOfCurrentCalendarView compare:[NSDate date]] == NSOrderedDescending) {
+            // Enable cell if the first date is greater than the current date.
+            enableCell = YES;
+        } else if (self.isCurrentMonth &&
+                   current >= currentDay) {
+            enableCell = YES;
+        }
     }
     
     if (indexPath.row >= self.offset &&
