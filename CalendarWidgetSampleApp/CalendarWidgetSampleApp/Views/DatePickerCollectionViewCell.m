@@ -8,24 +8,37 @@
 
 #import "DatePickerCollectionViewCell.h"
 #import "UIColor+Common.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface DatePickerCollectionViewCell ()
 @property (weak, nonatomic) IBOutlet UILabel *dayLabel;
+@property (strong, nonatomic) CAShapeLayer *slashLayer;
 @end
 
 @implementation DatePickerCollectionViewCell
 
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    self.enabled = NO;
+    self.booked = NO;
+    self.isSelected = NO;
+    [self.slashLayer removeFromSuperlayer];
+}
+
 - (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
     if (self.booked) {
-        CGContextRef ctx = UIGraphicsGetCurrentContext();
-        CGMutablePathRef path = CGPathCreateMutable();
-        CGPathMoveToPoint(path, NULL, 0, CGRectGetMaxY(rect));
-        CGPathAddLineToPoint(path, NULL, CGRectGetMaxX(rect), 0);
-        CGPathCloseSubpath(path);
-        CGContextAddPath(ctx, path);
-        CGContextSetStrokeColorWithColor(ctx,[UIColor dateSlashColor].CGColor);
-        CGContextStrokePath(ctx);
-        CGPathRelease(path);
+        UIBezierPath *path = [UIBezierPath bezierPath];
+        [path moveToPoint:CGPointMake(0, CGRectGetMaxY(rect))];
+        [path addLineToPoint:CGPointMake(CGRectGetMaxX(rect), 0)];
+        self.slashLayer = [CAShapeLayer layer];
+        self.slashLayer.path = [path CGPath];
+        self.slashLayer.strokeColor = [[UIColor dateSlashColor] CGColor];
+        self.slashLayer.lineWidth = 2.0;
+        self.slashLayer.fillColor = [[UIColor clearColor] CGColor];
+        [self.layer addSublayer:self.slashLayer];
+    } else {
+        [self.slashLayer removeFromSuperlayer];
     }
 }
 
@@ -41,6 +54,13 @@
 
 - (void)setBooked:(BOOL)booked {
     _booked = booked;
+    
+    if (booked) {
+        self.dayLabel.textColor = [UIColor dateEnabledColor];
+    } else {
+        self.dayLabel.textColor = [UIColor dateDisabledColor];
+    }
+    
     [self setNeedsDisplay];
 }
 

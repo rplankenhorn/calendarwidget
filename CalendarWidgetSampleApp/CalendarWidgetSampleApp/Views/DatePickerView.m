@@ -358,23 +358,15 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
         cell = [[DatePickerCollectionViewCell alloc] init];
     }
     
+    [cell setBooked:NO];
+    [cell setEnabled:NO];
+    [cell setIsSelected:NO];
+    
     NSInteger currentDay = [self.calendar component:NSCalendarUnitDay fromDate:[NSDate date]];
     NSInteger current = indexPath.row - self.offset + 1;
     NSInteger lastDay = [self.calendar component:NSCalendarUnitDay fromDate:self.lastDateOfCurrentCalendarView];
     
     BOOL enableCell = NO;
-    
-//    if (self.availableDatesAsDictionary) {
-//        enableCell = [self.availableDatesAsDictionary objectForKey:@(current)] != nil;
-//    } else {
-//        if ([self.firstDateOfCurrentCalendarView compare:[NSDate date]] == NSOrderedDescending) {
-//            // Enable cell if the first date is greater than the current date.
-//            enableCell = YES;
-//        } else if (self.isCurrentMonth &&
-//                   current >= currentDay) {
-//            enableCell = YES;
-//        }
-//    }
     
     if ([self.firstDateOfCurrentCalendarView compare:[NSDate date]] == NSOrderedDescending) {
         // Enable cell if the first date is greater than the current date.
@@ -383,8 +375,6 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
                current >= currentDay) {
         enableCell = YES;
     }
-    
-    [cell setBooked:YES];
     
     if (indexPath.row >= self.offset &&
         current <= lastDay) {
@@ -411,6 +401,8 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     } else {
         [cell setDayLabelText:@""];
         [cell setIsSelected:NO];
+        [cell setBooked:NO];
+        [cell setEnabled:NO];
     }
     
     return cell;
