@@ -13,6 +13,7 @@
 #import "UIFont+FontType.h"
 #import "TimePickerView.h"
 #import "Day.h"
+#import "NSDate+Reporting.h"
 
 @interface CalendarWidget () <DatePickerViewDataSource, DatePickerViewDelegate, TimePickerViewDataSource, TimePickerViewDelegate>
 
@@ -133,10 +134,7 @@
 
 - (void)setSelectedDate:(NSDate *)selectedDate {
     _selectedDate = selectedDate;
-    
-    if (!_selectedDate) {
-        [self clearAllButtonPressed:nil];
-    }
+    self.timeTabButton.enabled = (_selectedDate != nil);
 }
 
 #pragma mark - Init
@@ -223,6 +221,7 @@
     [self.timePickerView clear];
     [self.dateTabButton setTitle:@"Select Date" forState:UIControlStateNormal];
     [self.timeTabButton setTitle:@"Select Time" forState:UIControlStateNormal];
+    self.selectedDate = nil;
 }
 
 - (void)dateTabTapped:(id)sender {
@@ -281,9 +280,14 @@
 #pragma mark - DatePickerViewDelegate
 
 - (void)datePickerView:(DatePickerView *)datePickerView didSelectDate:(NSDate *)date {
-    self.dateFormatter.dateStyle = NSDateFormatterMediumStyle;
-    self.dateFormatter.timeStyle = NSDateFormatterNoStyle;
-    [self.dateTabButton setTitle:[self.dateFormatter stringFromDate:date] forState:UIControlStateNormal];
+    if (![self.selectedDate isSameMonthDayYear:date]) {
+        [self.timePickerView clear];
+        self.selectedDate = date;
+        self.dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+        self.dateFormatter.timeStyle = NSDateFormatterNoStyle;
+        [self.dateTabButton setTitle:[self.dateFormatter stringFromDate:date] forState:UIControlStateNormal];
+        [self.timeTabButton setTitle:@"Select Time" forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - TimePickerViewDataSource
@@ -295,14 +299,14 @@
         NSInteger selectedDay = [self.datePickerView.calendar component:NSCalendarUnitDay fromDate:self.selectedDate];
         NSInteger selectedYear = [self.datePickerView.calendar component:NSCalendarUnitYear fromDate:self.selectedDate];
         NSMutableArray *times = [[NSMutableArray alloc] init];
-        for (NSDate *date in self.availableDates) {
-            NSInteger month = [self.datePickerView.calendar component:NSCalendarUnitMonth fromDate:date];
-            NSInteger day = [self.datePickerView.calendar component:NSCalendarUnitDay fromDate:date];
-            NSInteger year = [self.datePickerView.calendar component:NSCalendarUnitYear fromDate:date];
+        for (Day *date in self.availableDates) {
+            NSInteger month = [self.datePickerView.calendar component:NSCalendarUnitMonth fromDate:date.date];
+            NSInteger day = [self.datePickerView.calendar component:NSCalendarUnitDay fromDate:date.date];
+            NSInteger year = [self.datePickerView.calendar component:NSCalendarUnitYear fromDate:date.date];
             if (month == selectedMonth &&
                 day == selectedDay &&
                 year == selectedYear) {
-                [times addObject:date];
+                [times addObjectsFromArray:date.timeslots];
             }
         }
         return [NSArray arrayWithArray:times];
@@ -313,10 +317,15 @@
 
 #pragma mark - TimePickerViewDelegate
 
-- (void)timePickerView:(TimePickerView *)timePickerView didSelectDate:(NSDate *)date {
+- (void)timePickerView:(TimePickerView *)timePickerView didSelectTimeslot:(Timeslot *)timeslot {
+    NSDateComponents *selectedDateComponents = [[NSCalendar currentCalendar] components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:self.selectedDate];
+    NSDateComponents *timeslotComponents = [[NSCalendar currentCalendar] components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:timeslot.startTime];
+    selectedDateComponents.hour = timeslotComponents.hour;
+    selectedDateComponents.minute = timeslotComponents.minute;
+    self.selectedDate = [[NSCalendar currentCalendar] dateFromComponents:selectedDateComponents];
     self.dateFormatter.dateStyle = NSDateFormatterNoStyle;
     self.dateFormatter.timeStyle = NSDateFormatterShortStyle;
-    [self.timeTabButton setTitle:[self.dateFormatter stringFromDate:date] forState:UIControlStateNormal];
+    [self.timeTabButton setTitle:[self.dateFormatter stringFromDate:timeslot.startTime] forState:UIControlStateNormal];
 }
 
 @end

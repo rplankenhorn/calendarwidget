@@ -89,6 +89,8 @@
 
 + (NSDate *)lastDayOfCurrentMonth;
 
+- (BOOL)isSameMonthDayYear:(NSDate *)date;
+
 #ifdef DEBUG
 // For testing only. A helper function to format and display a date 
 // with an optional comment. For example: 

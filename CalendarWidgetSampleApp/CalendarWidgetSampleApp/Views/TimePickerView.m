@@ -7,6 +7,7 @@
 //
 
 #import "TimePickerView.h"
+#import "Timeslot.h"
 
 static UIEdgeInsets const kSectionInset                         = {10.0f, 20.0f, 10.0f, 10.0f};
 static CGSize const kCollectionViewCellSize                     = {120.0f, 40.0f};
@@ -112,8 +113,10 @@ static CGFloat const kSecondsInHour                             = 3600.0f;
         cell = [[DatePickerCollectionViewCell alloc] init];
     }
     
+    Timeslot *timeslot = self.times[indexPath.row];
+    
     cell.enabled = YES;
-    [cell setDayLabelText:[self.dateFormatter stringFromDate:[self.times objectAtIndex:indexPath.row]]];
+    [cell setDayLabelText:[self.dateFormatter stringFromDate:timeslot.startTime]];
     
     if (self.selectedIndex != nil &&
         [self.selectedIndex isEqualToIndexPath:indexPath]) {
@@ -134,8 +137,8 @@ static CGFloat const kSecondsInHour                             = 3600.0f;
         self.selectedIndex = indexPath;
         [self.collectionView reloadData];
         
-        if ([self.delegate respondsToSelector:@selector(timePickerView:didSelectDate:)]) {
-            [self.delegate timePickerView:self didSelectDate:[self.times objectAtIndex:indexPath.row]];
+        if ([self.delegate respondsToSelector:@selector(timePickerView:didSelectTimeslot:)]) {
+            [self.delegate timePickerView:self didSelectTimeslot:self.times[indexPath.row]];
         }
     }
 }

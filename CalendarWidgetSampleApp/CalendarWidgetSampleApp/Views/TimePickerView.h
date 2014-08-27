@@ -7,6 +7,7 @@
 //
 
 #import "BasePickerView.h"
+#import "Timeslot.h"
 
 typedef NS_ENUM(NSInteger, TimePickerTimeInterval) {
     TimePickerTimeInterval_15MIN = 4,
@@ -35,6 +36,6 @@ typedef NS_ENUM(NSInteger, TimePickerTimeInterval) {
 @protocol TimePickerViewDelegate <NSObject>
 
 @optional
-- (void)timePickerView:(TimePickerView *)timePickerView didSelectDate:(NSDate *)date;
+- (void)timePickerView:(TimePickerView *)timePickerView didSelectTimeslot:(Timeslot *)timeslot;
 
 @end

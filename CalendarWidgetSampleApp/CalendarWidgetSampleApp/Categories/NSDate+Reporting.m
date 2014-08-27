@@ -229,6 +229,16 @@
     return [self oneDayBefore:[NSDate firstDayOfNextMonth]];
 }
 
+- (BOOL)isSameMonthDayYear:(NSDate *)date {
+    NSInteger month1 = [[NSCalendar currentCalendar] component:NSCalendarUnitMonth fromDate:self];
+    NSInteger day1 = [[NSCalendar currentCalendar] component:NSCalendarUnitDay fromDate:self];
+    NSInteger year1 = [[NSCalendar currentCalendar] component:NSCalendarUnitYear fromDate:self];
+    NSInteger month2 = [[NSCalendar currentCalendar] component:NSCalendarUnitMonth fromDate:date];
+    NSInteger day2 = [[NSCalendar currentCalendar] component:NSCalendarUnitDay fromDate:date];
+    NSInteger year2 = [[NSCalendar currentCalendar] component:NSCalendarUnitYear fromDate:date];
+    return (month1 == month2 && day1 == day2 && year1 == year2);
+}
+
 #ifdef DEBUG
 - (void)logWithComment:(NSString *)comment {
     NSString *output = [NSDateFormatter localizedStringFromDate:self
