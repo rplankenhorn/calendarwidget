@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1470064019AD2C1B0045D670 /* CalDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1470063F19AD2C1B0045D670 /* CalDataModel.m */; };
+		1470064319AD2DB00045D670 /* Timeslot.m in Sources */ = {isa = PBXBuildFile; fileRef = 1470064219AD2DB00045D670 /* Timeslot.m */; };
+		1470064619AD2FEC0045D670 /* Day.m in Sources */ = {isa = PBXBuildFile; fileRef = 1470064519AD2FEC0045D670 /* Day.m */; };
 		1473B9E619A6BB38008A28AC /* TimePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1473B9E519A6BB38008A28AC /* TimePickerView.m */; };
 		1473B9E919A6BB92008A28AC /* BasePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1473B9E819A6BB92008A28AC /* BasePickerView.m */; };
 		14782BAF19A4144100FA10B3 /* left_chevron.png in Resources */ = {isa = PBXBuildFile; fileRef = 14782BAD19A4144100FA10B3 /* left_chevron.png */; };
@@ -14,6 +17,7 @@
 		14782BBA19A418EA00FA10B3 /* UIView+AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 14782BB919A418EA00FA10B3 /* UIView+AutoLayout.m */; };
 		14839F1419A574C20008F567 /* UIFont+FontType.m in Sources */ = {isa = PBXBuildFile; fileRef = 14839F1319A574C20008F567 /* UIFont+FontType.m */; };
 		14839F1F19A575800008F567 /* UIColor+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 14839F1E19A575800008F567 /* UIColor+Common.m */; };
+		14B03EAD19ABA1970004B1AE /* cal-data.json in Resources */ = {isa = PBXBuildFile; fileRef = 14B03EAC19ABA1970004B1AE /* cal-data.json */; };
 		14B3809C19A2DA3900BFAEA9 /* CalendarFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 14B3809B19A2DA3900BFAEA9 /* CalendarFlowLayout.m */; };
 		14FCA8D819A2F0770011B17A /* NSIndexPath+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FCA8D719A2F0770011B17A /* NSIndexPath+Utils.m */; };
 		14FCA8DB19A2F4F90011B17A /* NSDate+Reporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 14FCA8DA19A2F4F90011B17A /* NSDate+Reporting.m */; };
@@ -41,6 +45,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1470063E19AD2C1B0045D670 /* CalDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalDataModel.h; sourceTree = "<group>"; };
+		1470063F19AD2C1B0045D670 /* CalDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalDataModel.m; sourceTree = "<group>"; };
+		1470064119AD2DB00045D670 /* Timeslot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timeslot.h; sourceTree = "<group>"; };
+		1470064219AD2DB00045D670 /* Timeslot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Timeslot.m; sourceTree = "<group>"; };
+		1470064419AD2FEC0045D670 /* Day.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Day.h; sourceTree = "<group>"; };
+		1470064519AD2FEC0045D670 /* Day.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Day.m; sourceTree = "<group>"; };
 		1473B9E419A6BB38008A28AC /* TimePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimePickerView.h; sourceTree = "<group>"; };
 		1473B9E519A6BB38008A28AC /* TimePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimePickerView.m; sourceTree = "<group>"; };
 		1473B9E719A6BB92008A28AC /* BasePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasePickerView.h; sourceTree = "<group>"; };
@@ -53,6 +63,7 @@
 		14839F1319A574C20008F567 /* UIFont+FontType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+FontType.m"; sourceTree = "<group>"; };
 		14839F1D19A575800008F567 /* UIColor+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Common.h"; sourceTree = "<group>"; };
 		14839F1E19A575800008F567 /* UIColor+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Common.m"; sourceTree = "<group>"; };
+		14B03EAC19ABA1970004B1AE /* cal-data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "cal-data.json"; sourceTree = "<group>"; };
 		14B3809A19A2DA3900BFAEA9 /* CalendarFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarFlowLayout.h; sourceTree = "<group>"; };
 		14B3809B19A2DA3900BFAEA9 /* CalendarFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarFlowLayout.m; sourceTree = "<group>"; };
 		14FCA8D619A2F0770011B17A /* NSIndexPath+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexPath+Utils.h"; sourceTree = "<group>"; };
@@ -99,6 +110,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1470063D19AD2BF90045D670 /* DataModels */ = {
+			isa = PBXGroup;
+			children = (
+				1470063E19AD2C1B0045D670 /* CalDataModel.h */,
+				1470063F19AD2C1B0045D670 /* CalDataModel.m */,
+				1470064119AD2DB00045D670 /* Timeslot.h */,
+				1470064219AD2DB00045D670 /* Timeslot.m */,
+				1470064419AD2FEC0045D670 /* Day.h */,
+				1470064519AD2FEC0045D670 /* Day.m */,
+			);
+			path = DataModels;
+			sourceTree = "<group>";
+		};
 		14B3809919A2D2DE00BFAEA9 /* Layouts */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +152,7 @@
 		14FE00E019A17A8500C3FA0F = {
 			isa = PBXGroup;
 			children = (
+				14B03EAC19ABA1970004B1AE /* cal-data.json */,
 				14FE00EB19A17A8500C3FA0F /* CalendarWidgetSampleApp */,
 				14FE010219A17A8500C3FA0F /* CalendarWidgetSampleAppTests */,
 				14FE00EA19A17A8500C3FA0F /* Products */,
@@ -149,6 +174,7 @@
 				14FE00F019A17A8500C3FA0F /* AppDelegate.h */,
 				14FE00F119A17A8500C3FA0F /* AppDelegate.m */,
 				14FCA8D519A2F04E0011B17A /* Categories */,
+				1470063D19AD2BF90045D670 /* DataModels */,
 				14FE011819A181FB00C3FA0F /* Images */,
 				14FE00F919A17A8500C3FA0F /* Images.xcassets */,
 				14B3809919A2D2DE00BFAEA9 /* Layouts */,
@@ -295,6 +321,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14B03EAD19ABA1970004B1AE /* cal-data.json in Resources */,
 				14782BAF19A4144100FA10B3 /* left_chevron.png in Resources */,
 				14FE012819A18AAD00C3FA0F /* DatePickerCollectionViewCell.xib in Resources */,
 				14782BB019A4144100FA10B3 /* right_chevron.png in Resources */,
@@ -322,14 +349,17 @@
 				14FCA8D819A2F0770011B17A /* NSIndexPath+Utils.m in Sources */,
 				14B3809C19A2DA3900BFAEA9 /* CalendarFlowLayout.m in Sources */,
 				14FE011519A17B6C00C3FA0F /* DatePickerView.m in Sources */,
+				1470064619AD2FEC0045D670 /* Day.m in Sources */,
 				14FE00F519A17A8500C3FA0F /* ViewController.m in Sources */,
 				14FCA8DB19A2F4F90011B17A /* NSDate+Reporting.m in Sources */,
+				1470064319AD2DB00045D670 /* Timeslot.m in Sources */,
 				14782BBA19A418EA00FA10B3 /* UIView+AutoLayout.m in Sources */,
 				1473B9E919A6BB92008A28AC /* BasePickerView.m in Sources */,
 				14FE011219A17AFA00C3FA0F /* CalendarWidget.m in Sources */,
 				1473B9E619A6BB38008A28AC /* TimePickerView.m in Sources */,
 				14FE00F219A17A8500C3FA0F /* AppDelegate.m in Sources */,
 				14839F1419A574C20008F567 /* UIFont+FontType.m in Sources */,
+				1470064019AD2C1B0045D670 /* CalDataModel.m in Sources */,
 				14FE012419A18A1800C3FA0F /* DatePickerCollectionViewCell.m in Sources */,
 				14FE00EF19A17A8500C3FA0F /* main.m in Sources */,
 			);

@@ -13,6 +13,7 @@
 #import "UIView+AutoLayout.h"
 #import "UIColor+Common.h"
 #import "UIFont+FontType.h"
+#import "Day.h"
 
 static CGFloat const kCollectionViewHeightBuffer                = 7.0f;
 static CGFloat const kViewWidth                                 = 316.0f;
@@ -187,10 +188,10 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
             if (array) {
                 NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
                 
-                for (NSDate *date in [self.dataSource datePickerView:self
-                                        availableDatesForMonthOfDate:self.firstDateOfCurrentCalendarView]) {
-                    NSInteger day = [self.calendar component:NSCalendarUnitDay fromDate:date];
-                    [dict setObject:date forKey:@(day)];
+                for (Day *date in [self.dataSource datePickerView:self
+                                     availableDatesForMonthOfDate:self.firstDateOfCurrentCalendarView]) {
+                    NSInteger day = [self.calendar component:NSCalendarUnitDay fromDate:date.date];
+                    [dict setObject:date.date forKey:@(day)];
                 }
                 
                 NSInteger currentDay = [self.calendar component:NSCalendarUnitDay fromDate:[NSDate date]];
@@ -383,13 +384,15 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
         enableCell = YES;
     }
     
+    [cell setBooked:YES];
+    
     if (indexPath.row >= self.offset &&
         current <= lastDay) {
         [cell setDayLabelText:[NSString stringWithFormat:@"%ld", (long)current]];
         [cell setEnabled:enableCell];
         
         if (enableCell) {
-            [cell setBooked:[self.availableDatesAsDictionary objectForKey:@(current)] != nil];
+            [cell setBooked:[self.availableDatesAsDictionary objectForKey:@(current)] == nil];
         }
         
         if (self.selectedIndex != nil &&

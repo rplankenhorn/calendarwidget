@@ -12,6 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIFont+FontType.h"
 #import "TimePickerView.h"
+#import "Day.h"
 
 @interface CalendarWidget () <DatePickerViewDataSource, DatePickerViewDelegate, TimePickerViewDataSource, TimePickerViewDelegate>
 
@@ -263,9 +264,9 @@
         NSInteger selectedMonth = [self.datePickerView.calendar component:NSCalendarUnitMonth fromDate:date];
         NSInteger selectedYear = [self.datePickerView.calendar component:NSCalendarUnitYear fromDate:date];
         NSMutableArray *dates = [[NSMutableArray alloc] init];
-        for (NSDate *d in self.availableDates) {
-            NSInteger month = [self.datePickerView.calendar component:NSCalendarUnitMonth fromDate:d];
-            NSInteger year = [self.datePickerView.calendar component:NSCalendarUnitYear fromDate:d];
+        for (Day *d in self.availableDates) {
+            NSInteger month = [self.datePickerView.calendar component:NSCalendarUnitMonth fromDate:d.date];
+            NSInteger year = [self.datePickerView.calendar component:NSCalendarUnitYear fromDate:d.date];
             if (month == selectedMonth &&
                 year == selectedYear) {
                 [dates addObject:d];

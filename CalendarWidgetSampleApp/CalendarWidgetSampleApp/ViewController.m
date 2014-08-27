@@ -11,9 +11,11 @@
 #import "DatePickerView.h"
 #import "UIView+AutoLayout.h"
 #import "NSDate+Reporting.h"
+#import "CalDataModel.h"
 
 @interface ViewController () <CalendarWidgetDataSource, CalendarWidgetDelegate>
 @property (strong, nonatomic) NSArray *availableDates;
+@property (strong, nonatomic) CalDataModel *dataModel;
 @end
 
 @implementation ViewController
@@ -26,7 +28,7 @@
         NSDate *currentDate = [NSDate date];
         
         for(int i=0; i<30; i++) {
-            if (i % 2 == 0) {
+            if (i % 2 != 0) {
                 [dates addObject:currentDate];
             }
             currentDate = [NSDate oneDayAfter:currentDate];
@@ -41,6 +43,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"cal-data" ofType:@"json"];
+    
+    self.dataModel = [[CalDataModel alloc] initWithFilePath:dataPath];
     
     CalendarWidget *calendarWidget = [[CalendarWidget alloc] init];
     calendarWidget.dataSource = self;
@@ -61,7 +67,8 @@
 #pragma mark - CalendarWidgetDataSource
 
 - (NSArray *)availableDatesForCalendarWidget:(CalendarWidget *)calendarWidget {
-    return self.availableDates;
+//    return self.availableDates;
+    return self.dataModel.days;
 }
 
 @end
