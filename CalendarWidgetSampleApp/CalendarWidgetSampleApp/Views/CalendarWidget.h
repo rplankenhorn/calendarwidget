@@ -23,6 +23,14 @@
 @protocol CalendarWidgetDataSource <NSObject>
 
 @optional
+/**
+ *  The available dates and times for the widget.  If none are specified,
+ *  then all dates and times are available.
+ *
+ *  @param calendarWidget calendarWidget
+ *
+ *  @return An array of Day objects.
+ */
 - (NSArray *)availableDatesForCalendarWidget:(CalendarWidget *)calendarWidget;
 
 @end

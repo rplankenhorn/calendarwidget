@@ -10,6 +10,8 @@
 
 @implementation BasePickerView
 
+#pragma mark - Getters
+
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.calendarFlowLayout];

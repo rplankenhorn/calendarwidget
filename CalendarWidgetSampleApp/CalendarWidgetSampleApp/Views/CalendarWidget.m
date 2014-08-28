@@ -18,6 +18,9 @@
 
 @interface CalendarWidget () <DatePickerViewDataSource, DatePickerViewDelegate, TimePickerViewDataSource, TimePickerViewDelegate>
 
+/**
+ *  UI Elements
+ */
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIButton *dateTabButton;
 @property (weak, nonatomic) IBOutlet UIButton *timeTabButton;
@@ -27,7 +30,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *clearAllButton;
 @property (assign, nonatomic) BOOL pickerContainerViewHidden;
 
-@property (strong, nonatomic) BasePickerView *selectedPicker;
+/**
+ *  Used when toggling between the pickers.  We can get away
+ *  with this being weak since we already have strong references
+ *  to the pickers in other properties.
+ */
+@property (weak, nonatomic) BasePickerView *selectedPicker;
 
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
@@ -115,10 +123,6 @@
     [self configureViews];
     
     self.pickerContainerViewHidden = YES;
-    
-//    [self.pickerContainerView addSubview:self.datePickerView];
-    
-//    self.selectedPicker = self.datePickerView;
 }
 
 - (void)configureViews {

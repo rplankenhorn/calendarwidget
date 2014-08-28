@@ -18,8 +18,20 @@ static CGFloat const kSecondsInHalfHour                         = 1800.0f;
 static CGFloat const kSecondsInHour                             = 3600.0f;
 
 @interface TimePickerView ()
+
+/**
+ *  The array of timeslots.
+ */
 @property (strong, nonatomic) NSArray *times;
+
+/**
+ *  Calculates the appointment length.
+ */
 @property (assign, nonatomic, readonly) NSInteger appointmentLength;
+
+/**
+ *  The number of appointments in the day.
+ */
 @property (assign, nonatomic, readonly) NSInteger numberOfAppointmentsInDay;
 @end
 

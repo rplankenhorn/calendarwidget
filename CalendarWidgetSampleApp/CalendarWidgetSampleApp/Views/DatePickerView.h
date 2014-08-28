@@ -32,6 +32,14 @@
 @protocol DatePickerViewDataSource <NSObject>
 
 @optional
+/**
+ *  Configuration method for the available days.
+ *
+ *  @param datePickerView datePickerView
+ *  @param date           date of current month
+ *
+ *  @return An array of Day objects
+ */
 - (NSArray *)datePickerView:(DatePickerView *)datePickerView availableDatesForMonthOfDate:(NSDate *)date;
 
 @end
@@ -39,6 +47,12 @@
 @protocol DatePickerViewDelegate <NSObject>
 
 @optional
+/**
+ *  Called when both a day and time have been selected.
+ *
+ *  @param datePickerView datePickerView
+ *  @param date           date
+ */
 - (void)datePickerView:(DatePickerView *)datePickerView didSelectDate:(NSDate *)date;
 
 @end
