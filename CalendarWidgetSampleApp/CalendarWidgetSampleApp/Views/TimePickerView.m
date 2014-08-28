@@ -40,11 +40,15 @@ static CGFloat const kSecondsInHour                             = 3600.0f;
             [components setMinute:0];
             
             NSDate *previousDate = [self.calendar dateFromComponents:components];
-            [mutTimes addObject:previousDate];
+            Timeslot *timeslot = [[Timeslot alloc] init];
+            timeslot.startTime = previousDate;
+            [mutTimes addObject:timeslot];
             
             for (int i=1; i<self.numberOfAppointmentsInDay; i++) {
                 NSDate *date = [NSDate dateWithTimeInterval:self.appointmentLength sinceDate:previousDate];
-                [mutTimes addObject:date];
+                timeslot = [[Timeslot alloc] init];
+                timeslot.startTime = date;
+                [mutTimes addObject:timeslot];
                 previousDate = date;
             }
             
