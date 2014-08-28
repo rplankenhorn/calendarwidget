@@ -29,4 +29,7 @@
 
 @protocol CalendarWidgetDelegate <NSObject>
 
+@optional
+- (void)calendarWidget:(CalendarWidget *)calendarWidget didSelectDate:(NSDate *)date;
+
 @end

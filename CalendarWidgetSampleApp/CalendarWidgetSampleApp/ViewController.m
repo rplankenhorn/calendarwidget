@@ -16,6 +16,7 @@
 @interface ViewController () <CalendarWidgetDataSource, CalendarWidgetDelegate>
 @property (strong, nonatomic) NSArray *availableDates;
 @property (strong, nonatomic) CalDataModel *dataModel;
+@property (strong, nonatomic) CalendarWidget *calendarWidget;
 @end
 
 @implementation ViewController
@@ -48,15 +49,20 @@
     
     self.dataModel = [[CalDataModel alloc] initWithFilePath:dataPath];
     
-    CalendarWidget *calendarWidget = [[CalendarWidget alloc] init];
-    calendarWidget.dataSource = self;
-    calendarWidget.delegate = self;
-    [self.view addSubview:calendarWidget];
+//    CalendarWidget *calendarWidget = [[CalendarWidget alloc] init];
+    self.calendarWidget = (CalendarWidget *)[[[NSBundle mainBundle] loadNibNamed:@"CalendarWidget" owner:nil options:nil] lastObject];
+    self.calendarWidget.dataSource = self;
+    self.calendarWidget.delegate = self;
+    [self.view addSubview:self.calendarWidget];
     
-    calendarWidget.translatesAutoresizingMaskIntoConstraints = NO;
+    self.calendarWidget.translatesAutoresizingMaskIntoConstraints = NO;
     
-    [calendarWidget centerInView:self.view];
-    [calendarWidget constrainToSize:CGSizeMake(312, 444)];
+//    [calendarWidget centerInView:self.view];
+//    [calendarWidget constrainToSize:CGSizeMake(312, 112)];
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-30-[calendarWidget]" options:0 metrics:nil views:@{@"calendarWidget": self.calendarWidget}]];
+    [self.calendarWidget centerInContainerOnAxis:NSLayoutAttributeCenterX];
+    [self.calendarWidget constrainToWidth:312];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,6 +75,12 @@
 - (NSArray *)availableDatesForCalendarWidget:(CalendarWidget *)calendarWidget {
 //    return self.availableDates;
     return self.dataModel.days;
+}
+
+#pragma mark - CalendarWidgetDelegate
+
+- (void)calendarWidget:(CalendarWidget *)calendarWidget didSelectDate:(NSDate *)date {
+    
 }
 
 @end

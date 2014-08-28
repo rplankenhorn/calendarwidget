@@ -10,6 +10,7 @@
 		1470064019AD2C1B0045D670 /* CalDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1470063F19AD2C1B0045D670 /* CalDataModel.m */; };
 		1470064319AD2DB00045D670 /* Timeslot.m in Sources */ = {isa = PBXBuildFile; fileRef = 1470064219AD2DB00045D670 /* Timeslot.m */; };
 		1470064619AD2FEC0045D670 /* Day.m in Sources */ = {isa = PBXBuildFile; fileRef = 1470064519AD2FEC0045D670 /* Day.m */; };
+		1470066719AE55E10045D670 /* CalendarWidget.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1470066619AE55E10045D670 /* CalendarWidget.xib */; };
 		1473B9E619A6BB38008A28AC /* TimePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1473B9E519A6BB38008A28AC /* TimePickerView.m */; };
 		1473B9E919A6BB92008A28AC /* BasePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1473B9E819A6BB92008A28AC /* BasePickerView.m */; };
 		14782BAF19A4144100FA10B3 /* left_chevron.png in Resources */ = {isa = PBXBuildFile; fileRef = 14782BAD19A4144100FA10B3 /* left_chevron.png */; };
@@ -51,6 +52,7 @@
 		1470064219AD2DB00045D670 /* Timeslot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Timeslot.m; sourceTree = "<group>"; };
 		1470064419AD2FEC0045D670 /* Day.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Day.h; sourceTree = "<group>"; };
 		1470064519AD2FEC0045D670 /* Day.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Day.m; sourceTree = "<group>"; };
+		1470066619AE55E10045D670 /* CalendarWidget.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalendarWidget.xib; sourceTree = "<group>"; };
 		1473B9E419A6BB38008A28AC /* TimePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimePickerView.h; sourceTree = "<group>"; };
 		1473B9E519A6BB38008A28AC /* TimePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimePickerView.m; sourceTree = "<group>"; };
 		1473B9E719A6BB92008A28AC /* BasePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasePickerView.h; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				1473B9E819A6BB92008A28AC /* BasePickerView.m */,
 				14FE011019A17AFA00C3FA0F /* CalendarWidget.h */,
 				14FE011119A17AFA00C3FA0F /* CalendarWidget.m */,
+				1470066619AE55E10045D670 /* CalendarWidget.xib */,
 				14FE012219A18A1800C3FA0F /* DatePickerCollectionViewCell.h */,
 				14FE012319A18A1800C3FA0F /* DatePickerCollectionViewCell.m */,
 				14FE012719A18AAD00C3FA0F /* DatePickerCollectionViewCell.xib */,
@@ -322,6 +325,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				14B03EAD19ABA1970004B1AE /* cal-data.json in Resources */,
+				1470066719AE55E10045D670 /* CalendarWidget.xib in Resources */,
 				14782BAF19A4144100FA10B3 /* left_chevron.png in Resources */,
 				14FE012819A18AAD00C3FA0F /* DatePickerCollectionViewCell.xib in Resources */,
 				14782BB019A4144100FA10B3 /* right_chevron.png in Resources */,

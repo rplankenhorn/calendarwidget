@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6205" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6198"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CalendarWidget">
+            <rect key="frame" x="0.0" y="0.0" width="312" height="112"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zrS-hY-3wY" userLabel="Container View">
+                    <rect key="frame" x="10" y="10" width="292" height="92"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C7q-xI-eZp" userLabel="Select Date Button">
+                            <rect key="frame" x="2" y="2" width="143" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="7j9-57-J06"/>
+                            </constraints>
+                            <state key="normal" title="Button">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bxW-YU-Qfc" userLabel="Select Time Button">
+                            <rect key="frame" x="147" y="2" width="143" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="eVl-8L-aa9"/>
+                            </constraints>
+                            <state key="normal" title="Button">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cmJ-m1-ak3" userLabel="Picker Container View">
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PcI-Cp-PvS" userLabel="Clear All Button">
+                            <rect key="frame" x="2" y="56" width="288" height="34"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="34" id="FrQ-SE-dwo"/>
+                            </constraints>
+                            <state key="normal" title="Button">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="PcI-Cp-PvS" firstAttribute="leading" secondItem="zrS-hY-3wY" secondAttribute="leading" constant="2" id="7xY-Hl-jmr"/>
+                        <constraint firstAttribute="trailing" secondItem="PcI-Cp-PvS" secondAttribute="trailing" constant="2" id="9Qs-66-RwR"/>
+                        <constraint firstItem="cmJ-m1-ak3" firstAttribute="leading" secondItem="zrS-hY-3wY" secondAttribute="leading" constant="2" id="Huy-fg-k3T"/>
+                        <constraint firstItem="bxW-YU-Qfc" firstAttribute="width" secondItem="C7q-xI-eZp" secondAttribute="width" id="IPd-bA-a4J"/>
+                        <constraint firstAttribute="trailing" secondItem="bxW-YU-Qfc" secondAttribute="trailing" constant="2" id="IxQ-Od-Q5a"/>
+                        <constraint firstItem="cmJ-m1-ak3" firstAttribute="top" secondItem="C7q-xI-eZp" secondAttribute="bottom" constant="2" id="LXD-Gc-Ilu"/>
+                        <constraint firstItem="PcI-Cp-PvS" firstAttribute="top" secondItem="cmJ-m1-ak3" secondAttribute="bottom" constant="2" id="TEC-S1-btQ"/>
+                        <constraint firstItem="C7q-xI-eZp" firstAttribute="top" secondItem="zrS-hY-3wY" secondAttribute="top" constant="2" id="Z5G-tB-TtH"/>
+                        <constraint firstItem="PcI-Cp-PvS" firstAttribute="top" secondItem="cmJ-m1-ak3" secondAttribute="bottom" constant="2" id="bSo-Vo-I3R"/>
+                        <constraint firstItem="C7q-xI-eZp" firstAttribute="leading" secondItem="zrS-hY-3wY" secondAttribute="leading" constant="2" id="cgN-TQ-yGi"/>
+                        <constraint firstAttribute="bottom" secondItem="PcI-Cp-PvS" secondAttribute="bottom" constant="2" id="hvO-qt-tQ9"/>
+                        <constraint firstItem="cmJ-m1-ak3" firstAttribute="top" secondItem="bxW-YU-Qfc" secondAttribute="bottom" constant="2" id="oKW-vV-Yml"/>
+                        <constraint firstAttribute="trailing" secondItem="cmJ-m1-ak3" secondAttribute="trailing" constant="2" id="q7K-1b-g0J"/>
+                        <constraint firstItem="bxW-YU-Qfc" firstAttribute="leading" secondItem="C7q-xI-eZp" secondAttribute="trailing" constant="2" id="uEL-sl-tnv"/>
+                        <constraint firstItem="cmJ-m1-ak3" firstAttribute="top" secondItem="bxW-YU-Qfc" secondAttribute="bottom" constant="2" id="v2S-Wf-vcu"/>
+                        <constraint firstItem="bxW-YU-Qfc" firstAttribute="top" secondItem="zrS-hY-3wY" secondAttribute="top" constant="2" id="vSl-Cv-xKS"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="zrS-hY-3wY" secondAttribute="trailing" constant="10" id="5Bz-qG-wJB"/>
+                <constraint firstItem="zrS-hY-3wY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="EBX-eE-dxk"/>
+                <constraint firstAttribute="bottom" secondItem="zrS-hY-3wY" secondAttribute="bottom" constant="10" id="WEq-fF-GlD"/>
+                <constraint firstItem="zrS-hY-3wY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="if2-Yg-dEu"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="clearAllButton" destination="PcI-Cp-PvS" id="URb-bn-iVG"/>
+                <outlet property="containerView" destination="zrS-hY-3wY" id="SYd-7T-2Fo"/>
+                <outlet property="dateTabButton" destination="C7q-xI-eZp" id="m3Q-LA-b3p"/>
+                <outlet property="pickerContainerView" destination="cmJ-m1-ak3" id="Fot-7y-gnM"/>
+                <outlet property="timeTabButton" destination="bxW-YU-Qfc" id="yF1-Hy-VHR"/>
+            </connections>
+            <point key="canvasLocation" x="102" y="65"/>
+        </view>
+    </objects>
+</document>

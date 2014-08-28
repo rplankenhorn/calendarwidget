@@ -388,13 +388,6 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
         if (self.selectedIndex != nil &&
             [self.selectedIndex isEqualToIndexPath:indexPath]) {
             [cell setIsSelected:YES];
-        } else if (self.selectedIndex == nil &&
-                   self.isCurrentMonth &&
-                   current == currentDay) {
-            [cell setIsSelected:YES];
-            if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectDate:)]) {
-                [self.delegate datePickerView:self didSelectDate:[self calculateCurrentMonthFromIndexPath:indexPath]];
-            }
         } else {
             [cell setIsSelected:NO];
         }
