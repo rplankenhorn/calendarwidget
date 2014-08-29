@@ -130,7 +130,7 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 }
 
 - (NSInteger)offset {
-    return [self.calendar component:NSCalendarUnitWeekday fromDate:self.firstDateOfCurrentCalendarView]-1;
+    return [[self.calendar components:NSCalendarUnitWeekday fromDate:self.firstDateOfCurrentCalendarView] weekday]-1;
 }
 
 - (NSInteger)endPadding {
@@ -143,7 +143,11 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 
 - (NSDate *)firstDateOfCurrentCalendarView {
     if (!_firstDateOfCurrentCalendarView) {
-        _firstDateOfCurrentCalendarView = [self.calendar startOfDayForDate:[NSDate firstDayOfCurrentMonth]];
+        if ([self.calendar respondsToSelector:@selector(startOfDayForDate:)]) {
+            _firstDateOfCurrentCalendarView = [self.calendar startOfDayForDate:[NSDate firstDayOfCurrentMonth]];
+        } else {
+            _firstDateOfCurrentCalendarView = [NSDate firstDayOfCurrentMonth];
+        }
     }
     return _firstDateOfCurrentCalendarView;
 }
@@ -190,11 +194,11 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
                 
                 for (Day *date in [self.dataSource datePickerView:self
                                      availableDatesForMonthOfDate:self.firstDateOfCurrentCalendarView]) {
-                    NSInteger day = [self.calendar component:NSCalendarUnitDay fromDate:date.date];
+                    NSInteger day = [[self.calendar components:NSCalendarUnitDay fromDate:date.date] day];
                     [dict setObject:date.date forKey:@(day)];
                 }
                 
-                NSInteger currentDay = [self.calendar component:NSCalendarUnitDay fromDate:[NSDate date]];
+                NSInteger currentDay = [[self.calendar components:NSCalendarUnitDay fromDate:[NSDate date]] day];
                 
                 if (![dict objectForKey:@(currentDay)]) {
                     self.selectedIndex = [NSIndexPath indexPathForRow:INT_MAX inSection:INT_MAX];
@@ -362,9 +366,9 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
     [cell setEnabled:NO];
     [cell setIsSelected:NO];
     
-    NSInteger currentDay = [self.calendar component:NSCalendarUnitDay fromDate:[NSDate date]];
+    NSInteger currentDay = [[self.calendar components:NSCalendarUnitDay fromDate:[NSDate date]] day];
     NSInteger current = indexPath.row - self.offset + 1;
-    NSInteger lastDay = [self.calendar component:NSCalendarUnitDay fromDate:self.lastDateOfCurrentCalendarView];
+    NSInteger lastDay = [[self.calendar components:NSCalendarUnitDay fromDate:self.lastDateOfCurrentCalendarView] day];
     
     BOOL enableCell = NO;
     
@@ -402,8 +406,8 @@ static NSString * const kRightChevronImageName                  = @"right_chevro
 }
 
 - (NSDate *)calculateCurrentMonthFromIndexPath:(NSIndexPath *)indexPath {
-    NSInteger month = [self.calendar component:NSCalendarUnitMonth fromDate:self.firstDateOfCurrentCalendarView];
-    NSInteger year = [self.calendar component:NSCalendarUnitYear fromDate:self.firstDateOfCurrentCalendarView];
+    NSInteger month = [[self.calendar components:NSCalendarUnitMonth fromDate:self.firstDateOfCurrentCalendarView] month];
+    NSInteger year = [[self.calendar components:NSCalendarUnitYear fromDate:self.firstDateOfCurrentCalendarView] year];
     NSInteger day = indexPath.row - self.offset + 1;
     
     NSDateComponents *components = [[NSDateComponents alloc] init];

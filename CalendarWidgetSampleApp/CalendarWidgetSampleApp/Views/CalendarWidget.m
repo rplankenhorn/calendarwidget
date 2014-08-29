@@ -242,12 +242,12 @@
 
 - (NSArray *)datePickerView:(DatePickerView *)datePickerView availableDatesForMonthOfDate:(NSDate *)date {
     if (self.availableDates) {
-        NSInteger selectedMonth = [self.datePickerView.calendar component:NSCalendarUnitMonth fromDate:date];
-        NSInteger selectedYear = [self.datePickerView.calendar component:NSCalendarUnitYear fromDate:date];
+        NSInteger selectedMonth = [[self.datePickerView.calendar components:NSCalendarUnitMonth fromDate:date] month];
+        NSInteger selectedYear = [[self.datePickerView.calendar components:NSCalendarUnitYear fromDate:date] year];
         NSMutableArray *dates = [[NSMutableArray alloc] init];
         for (Day *d in self.availableDates) {
-            NSInteger month = [self.datePickerView.calendar component:NSCalendarUnitMonth fromDate:d.date];
-            NSInteger year = [self.datePickerView.calendar component:NSCalendarUnitYear fromDate:d.date];
+            NSInteger month = [[self.datePickerView.calendar components:NSCalendarUnitMonth fromDate:d.date] month];
+            NSInteger year = [[self.datePickerView.calendar components:NSCalendarUnitYear fromDate:d.date] year];
             if (month == selectedMonth &&
                 year == selectedYear) {
                 [dates addObject:d];
@@ -278,14 +278,14 @@
 - (NSArray *)availableTimesForTimePickerView:(TimePickerView *)timePickerView {
     if (self.selectedDate &&
         self.availableDates) {
-        NSInteger selectedMonth = [self.datePickerView.calendar component:NSCalendarUnitMonth fromDate:self.selectedDate];
-        NSInteger selectedDay = [self.datePickerView.calendar component:NSCalendarUnitDay fromDate:self.selectedDate];
-        NSInteger selectedYear = [self.datePickerView.calendar component:NSCalendarUnitYear fromDate:self.selectedDate];
+        NSInteger selectedMonth = [[self.datePickerView.calendar components:NSCalendarUnitMonth fromDate:self.selectedDate] month];
+        NSInteger selectedDay = [[self.datePickerView.calendar components:NSCalendarUnitDay fromDate:self.selectedDate] day];
+        NSInteger selectedYear = [[self.datePickerView.calendar components:NSCalendarUnitYear fromDate:self.selectedDate] year];
         NSMutableArray *times = [[NSMutableArray alloc] init];
         for (Day *date in self.availableDates) {
-            NSInteger month = [self.datePickerView.calendar component:NSCalendarUnitMonth fromDate:date.date];
-            NSInteger day = [self.datePickerView.calendar component:NSCalendarUnitDay fromDate:date.date];
-            NSInteger year = [self.datePickerView.calendar component:NSCalendarUnitYear fromDate:date.date];
+            NSInteger month = [[self.datePickerView.calendar components:NSCalendarUnitMonth fromDate:date.date] month];
+            NSInteger day = [[self.datePickerView.calendar components:NSCalendarUnitDay fromDate:date.date] day];
+            NSInteger year = [[self.datePickerView.calendar components:NSCalendarUnitYear fromDate:date.date] year];
             if (month == selectedMonth &&
                 day == selectedDay &&
                 year == selectedYear) {
